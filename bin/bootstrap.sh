@@ -28,5 +28,5 @@ git clone https://github.com/theos/sdks $TMP/sdks
 
 mv $TMP/sdks/iPhoneOS14.5.sdk $SDKS # for now, this is all I need
 
-rm -rf $tmp # won't delete automatically since we cloned a git repo into it
+rm -rf $TMP # won't delete automatically since we cloned a git repo into it
 touch $DIYCOMPILE/.bootstrapped
