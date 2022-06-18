@@ -9,11 +9,9 @@ fi
 TOOLCHAIN=$DIYCOMPILE/toolchain
 SDKS=$DIYCOMPILE/sdks
 
-rm -r $TOOLCHAIN
-mkdir -p $TOOLCHAIN
-
-rm -r $SDKS
-mkdir -p $SDKS
+reset() { find $1/* ! -name '.keep' -delete  > /dev/null 2>&1 || true; }
+reset $TOOLCHAIN
+reset $SDKS
 
 TMP=$(mktemp -d)
 
