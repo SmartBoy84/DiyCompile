@@ -1,6 +1,4 @@
-.vscode
-.DS_Store
-._*
-.bootstrapped
-sdks/*
-toolchain/*
+*
+!app
+!bin
+!buildapp.mk

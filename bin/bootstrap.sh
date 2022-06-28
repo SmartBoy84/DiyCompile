@@ -15,9 +15,9 @@ reset $SDKS
 
 TMP=$(mktemp -d)
 
-FILE=linux-ios-arm64e-clang-toolchain.tar.lzma
+FILE=swift-5.3.2-RELEASE-ubuntu20.04.tar.zst
 
-wget -q --show-progress -O $TMP/$FILE https://github.com/sbingner/llvm-project/releases/latest/download/$FILE
+wget -q --show-progress -O $TMP/$FILE https://github.com/CRKatri/llvm-project/releases/download/swift-5.3.2-RELEASE/$FILE
 
 tar -xf $TMP/$FILE -C $TMP
 mv $TMP/ios-arm64e-clang-toolchain/* $TOOLCHAIN

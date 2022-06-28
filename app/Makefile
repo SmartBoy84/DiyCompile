@@ -4,4 +4,4 @@ NAME = @@PROJECTNAME@@
 FILES = AppDelegate.swift RootViewController.swift
 FRAMEWORKS = UIKit CoreGraphics
 
-include $(DIYCOMPILE)/app.mk
+include $(DIYCOMPILE)/buildapp.mk
