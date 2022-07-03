@@ -15,12 +15,12 @@ reset $SDKS
 
 TMP=$(mktemp -d)
 
-FILE=swift-5.3.2-RELEASE-ubuntu20.04.tar.zst
+FILE=swift-5.3.2-RELEASE-ubuntu20.04
 
-wget -q --show-progress -O $TMP/$FILE https://github.com/CRKatri/llvm-project/releases/download/swift-5.3.2-RELEASE/$FILE
+wget -q --show-progress -O $TMP/$FILE https://github.com/CRKatri/llvm-project/releases/download/swift-5.3.2-RELEASE/$FILE.tar.zst
 
-tar -xf $TMP/$FILE -C $TMP
-mv $TMP/ios-arm64e-clang-toolchain/* $TOOLCHAIN
+tar -xvf $TMP/$FILE -C $TMP
+mv $TMP/$FILE/* $TOOLCHAIN
 
 git clone https://github.com/theos/sdks $TMP/sdks
 

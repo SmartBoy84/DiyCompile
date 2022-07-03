@@ -54,5 +54,20 @@
 			</array>
 		</dict>
 	</dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleURLIconFile</key>
+			<string></string>
+			<key>CFBundleURLName</key>
+			<string>@@PROJECTNAME@@</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>@@PROJECTNAME@@</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

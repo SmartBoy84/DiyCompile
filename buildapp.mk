@@ -10,7 +10,7 @@ end=\033[0m
 arrow=$(red)=> $(end)
 
 ROOT := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
-SDK := $(ROOT)/sdks/iPhoneOS14.4.sdk
+SDK := $(ROOT)/sdks/iPhoneOS14.5.sdk
 
 DIR := $(shell pwd)
 MKDIR := $(DIR)/.build
@@ -73,7 +73,7 @@ remove:
 	$(REMOTETEST)
 	ssh root@$(IP) "dpkg -r $(PACKAGE) && uicache"
 
-update:
+do:
 	$(REMOTETEST)
 	@$(RERUN)
 	
@@ -84,6 +84,7 @@ update:
 		echo "$(red)App isn't installed at all!$(end)"; \
 		$(RERUN) install; \
 	fi
+	ssh root@$(IP) "killall $(PACKAGE) && uiopen $(NAME)://"
 
 clean:
 	-@rm -r $(MKDIR)
