@@ -10,8 +10,14 @@ end=\033[0m
 arrow=$(red)=> $(end)
 MUTE= 2>/dev/null; true
 
+# to be set in project's makefile
+ARCH := $(if $(ARCH),$(ARCH),arm64)
+OS := $(if $(OS),$(OS),14.0)
+
+TARGET := $(ARCH)-apple-ios$(OS)
+
 ROOT := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
-SDK := $(ROOT)/sdks/iPhoneOS14.5.sdk
+SDK := $(ROOT)/sdks/iPhoneOS$(OS).sdk
 
 DIR := $(shell pwd)
 MKDIR := $(DIR)/.build
@@ -30,12 +36,6 @@ STAGE := main
 APPDIR := $(MKDIR)/app/$(STAGE)
 IPA := $(MKDIR)/_/IPA
 DEB := $(MKDIR)/_/DEB
-
-# to be set in project's makefile
-ARCH := $(if $(ARCH),$(ARCH),arm64)
-OS := $(if $(OS),$(OS),7.0)
-
-TARGET := $(ARCH)-apple-ios$(OS)
 
 TBINS := $(ROOT)/toolchain/bin
 SWIFTC := $(TBINS)/swiftc
@@ -91,7 +91,7 @@ do:
 		echo "$(red)App isn't installed at all!$(end)"; \
 		$(RERUN) install; \
 	fi
-	-@ssh root@$(IP) "killall $(NAME); uicache; uiopen $(NAME)://"
+	-@ssh root@$(IP) "killall $(NAME); uiopen $(NAME)://"
 
 scout:
 	@if [ ! -d $(MKDIR) ]; then mkdir -p $(MKDIR); fi

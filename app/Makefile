@@ -1,5 +1,5 @@
-OS = 14.5
-ARCH = arm64
+# OS = 14.5
+# ARCH = arm64
 
 # DEBUG = 1
 
