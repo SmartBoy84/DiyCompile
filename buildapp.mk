@@ -8,6 +8,7 @@ red=\033[0;31m
 blue=\033[0;34m
 end=\033[0m
 arrow=$(red)=> $(end)
+MUTE= 2>/dev/null; true
 
 ROOT := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 SDK := $(ROOT)/sdks/iPhoneOS14.5.sdk
@@ -61,17 +62,23 @@ FULLSWIFT += $(FILES)
 
 all: scout build post
 
+clean:
+	@echo "$(arrow)$(green)Cleaning...$(end)"
+	
+	-@rm -r $(MKDIR) $(MUTE)
+	-@rm -r packages $(MUTE)
+
 install:
 	$(REMOTETEST)
-	@if [ ! -f packages/*.deb ]; then echo "build a package first!"; $(RERUN) deb; fi
+	@if [ ! -f packages/*.deb ]; then echo "$(red)Build a package first!$(end)"; $(RERUN) deb; fi
 	
-	echo "$(arrow)$(green)Installing to $(IP)$(end)"
-	@scp packages/*.deb root@$(IP):/tmp/build.deb
-	ssh root@$(IP) "dpkg -i /tmp/build.deb && uicache"
+	@echo "$(arrow)$(green)Installing to $(IP)...$(end)"
+	@scp packages/*.deb root@$(IP):/tmp/build.deb > /dev/null
+	@ssh root@$(IP) "dpkg -i /tmp/build.deb && uicache"
 
 remove:
 	$(REMOTETEST)
-	ssh root@$(IP) "dpkg -r $(PACKAGE) && uicache"
+	@ssh root@$(IP) "dpkg -r $(PACKAGE) && uicache"
 
 do:
 	$(REMOTETEST)
@@ -79,16 +86,12 @@ do:
 	
 	@if ssh root@192.168.0.251 "stat /Applications/$(NAME).app/$(NAME)" > /dev/null; then \
 		echo "$(arrow)$(green)Updating files to $(blue)$(IP)$(end)$(green)...$(end)"; \
-		rsync -ar --info=progress2 $(APPDIR)/$(NAME).app root@$(IP):/Applications/$(NAME).app --delete ; \
+		rsync -ar --info=progress2 $(APPDIR)/$(NAME).app/ root@$(IP):/Applications/$(NAME).app/ --delete ; \
 	else \
 		echo "$(red)App isn't installed at all!$(end)"; \
 		$(RERUN) install; \
 	fi
-	ssh root@$(IP) "killall $(PACKAGE) && uiopen $(NAME)://"
-
-clean:
-	-@rm -r $(MKDIR)
-	-@rm -r packages
+	-@ssh root@$(IP) "killall $(NAME); uicache; uiopen $(NAME)://"
 
 scout:
 	@if [ ! -d $(MKDIR) ]; then mkdir -p $(MKDIR); fi
@@ -135,17 +138,17 @@ ipa:
 
 deb:
 	@$(RERUN) all
-	echo "$(arrow)$(green)Making deb...$(end)"
+	@echo "$(arrow)$(green)Making deb...$(end)"
 			
 	-@mkdir -p packages/.old
-	-@mv packages/*.deb packages/.old
+	@mv packages/*.deb packages/.old $(MUTE)
 
-	cp control $(APPDIR)/../DEBIAN
+	@cp control $(APPDIR)/../DEBIAN
 
 	$(eval COUNTER=$(shell [ -f $(DEB) ] && echo $$(($$(cat $(DEB)) + 1)) || echo 1))
-	echo $(COUNTER) > $(DEB)
+	@echo $(COUNTER) > $(DEB)
 
 	@cd $(APPDIR)/.. ;\
 	mv $(STAGE) Applications ;\
-	dpkg-deb -Zxz -z0 -b . $(DIR)/packages/$(PACKAGE)_$(VERSION)-$(COUNTER)_$(PLATFORM).deb ;\
+	dpkg-deb -Zxz -z0 -b . $(DIR)/packages/$(PACKAGE)_$(VERSION)-$(COUNTER)_$(PLATFORM).deb > /dev/null;\
 	mv Applications $(STAGE) ;\
