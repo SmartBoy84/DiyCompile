@@ -1,5 +1,7 @@
 OS = 14.5
-NAME = @@PROJECTNAME@@
+ARCH = arm64
+
+# DEBUG = 1
 
 FILES = AppDelegate.swift RootViewController.swift
 FRAMEWORKS = UIKit CoreGraphics
