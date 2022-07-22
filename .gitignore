@@ -1,6 +1,14 @@
-*
-!app/*
-!app
-!bin/*
-!bin
-!buildapp.mk
+# scripting + application dirs
+.vscode
+.bootstrapped
+
+# empty remote directories
+toolchain/*
+!toolchain/.keep
+
+sdks/*
+!sdks/.keep
+
+lib/*
+!lib/.keep
+!lib/README.md
