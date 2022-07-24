@@ -36,7 +36,8 @@ PLATFORM := $(shell cat $(DIR)/control | awk 'match($$0, /^[a|A]rchitecture:\s*(
 REMOTETEST=@(([ "${IP}" ] || (echo "IP not defined"; exit 1)) && ssh root@$(IP) "echo" > /dev/null)
 RERUN := $(MAKE) --no-print-directory
 
-TBINS := $(ROOT)/toolchain/iphone/bin
+TOOLCHAIN := $(ROOT)/toolchain/iphone
+TBINS := $(TOOLCHAIN)/bin
 SWIFTC := $(TBINS)/swiftc
 
 # worry about this when you need to compile c headers
@@ -49,9 +50,12 @@ CARGS := -isysroot $(SDK) -target $(TARGET) -fmodules -fcxx-modules -fbuild-sess
 SWIFTDEBUG = -DDEBUG -Onone
 SWIFTOPTIMIZE := -O -num-threads 1
 # SWIFT := -module-name $(NAME) -F$(SDK)/System/Library/PrivateFrameworks -F$(ROOT)/lib -swift-version 5 -sdk "$(SDK)" -resource-dir $(ROOT)/toolchain/linux/iphone/bin/../lib/swift -incremental -target $(TARGET) -output-file-map $(DIR)/.build/output-file-map.json -emit-dependencies -emit-module-path $(DIR)/.build/$(NAME).swiftmodule
-SWIFT_LIB := -F$(SDK)/System/Library/PrivateFrameworks -F$(ROOT)/lib
+SWIFT_LIB := -F$(SDK)/System/Library/PrivateFrameworks -F$(ROOT)/lib -resource-dir $(TOOLCHAIN)/lib/swift
 SWIFT := -emit-executable -o $(MKDIR)/$(NAME) -sdk $(SDK) -target $(TARGET) -F$(ROOT)/lib -incremental -output-file-map $(MKDIR)/output-file-map.json -emit-dependencies -swift-version 5
-FULLSWIFT = -c $(SWIFT) $(SWIFT_LIB)
+FULLSWIFT = -c -use-ld=$(TBINS)/ld $(SWIFT) $(SWIFT_LIB)
+
+# needed for ld to work
+export PATH := $(TBINS):$(PATH)
 
 ifdef DEBUG
 FULLSWIFT += $(SWIFTDEBUG)
