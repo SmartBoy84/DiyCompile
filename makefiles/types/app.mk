@@ -23,14 +23,6 @@ do:
 	fi
 	-@ssh root@$(IP) "killall $(NAME); uiopen $(NAME)://"
 
-scout:
-	@if [ ! -d $(MKDIR) ]; then mkdir -p $(MKDIR); fi
-	@$(ROOT)/bin/FileMapGenerator.js $(MKDIR) $(FILES) > $(MKDIR)/output-file-map.json
-
-build:
-	@echo "$(arrow)$(green)Building the app...$(end)"
-	@$(SWIFTC) $(FULLSWIFT)
-
 post:
 	@if [ -f $(MKDIR)/.swift-stamp.tmp ]; then rm $(MKDIR)/.swift-stamp.tmp; fi
 	@touch $(MKDIR)/.swift-stamp.tmp;
