@@ -1,3 +1,5 @@
+ARCH=arm64e
+
 MKPATH = $(DIYCOMPILE)/makefiles
 TYPE=""
 

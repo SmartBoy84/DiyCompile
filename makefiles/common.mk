@@ -1,6 +1,7 @@
 # good idea to create an md5sum hash based on compiler arguments, that way if you add a file, framework or header everything will be recompiled but if you go back to how it was before the old files can be reused
 # rather than manually do -Xcc [c flag] make a list of c flags and loop over them
 # unused CDIAGNOSTICS (-fcolor-diagnostics) FULLSWIFT (-Xfrontend -color-diagnostics -g -v)
+# unused SWIFTOPTIMIZE -whole-module-optimization
 # todo, add support for multiple targets (will need to do manual linking), update toolchain
 
 # this is for stuff I just do NOT give a damn about
@@ -35,7 +36,7 @@ PLATFORM := $(shell cat $(DIR)/control | awk 'match($$0, /^[a|A]rchitecture:\s*(
 REMOTETEST=@(([ "${IP}" ] || (echo "IP not defined"; exit 1)) && ssh root@$(IP) "echo" > /dev/null)
 RERUN := $(MAKE) --no-print-directory
 
-TBINS := $(ROOT)/toolchain/bin
+TBINS := $(ROOT)/toolchain/iphone/bin
 SWIFTC := $(TBINS)/swiftc
 
 # worry about this when you need to compile c headers
@@ -46,10 +47,11 @@ CARGS := -isysroot $(SDK) -target $(TARGET) -fmodules -fcxx-modules -fbuild-sess
 
 # actual swift stuff
 SWIFTDEBUG = -DDEBUG -Onone
-SWIFTOPTIMIZE := -O -whole-module-optimization -num-threads 1
+SWIFTOPTIMIZE := -O -num-threads 1
 # SWIFT := -module-name $(NAME) -F$(SDK)/System/Library/PrivateFrameworks -F$(ROOT)/lib -swift-version 5 -sdk "$(SDK)" -resource-dir $(ROOT)/toolchain/linux/iphone/bin/../lib/swift -incremental -target $(TARGET) -output-file-map $(DIR)/.build/output-file-map.json -emit-dependencies -emit-module-path $(DIR)/.build/$(NAME).swiftmodule
-SWIFT := -emit-executable -o $(MKDIR)/$(NAME) -sdk $(SDK) -target $(TARGET) -F$(ROOT)/lib -incremental -output-file-map $(MKDIR)/output-file-map.json -emit-dependencies
-FULLSWIFT = -c $(SWIFT)
+SWIFT_LIB := -F$(SDK)/System/Library/PrivateFrameworks -F$(ROOT)/lib
+SWIFT := -emit-executable -o $(MKDIR)/$(NAME) -sdk $(SDK) -target $(TARGET) -F$(ROOT)/lib -incremental -output-file-map $(MKDIR)/output-file-map.json -emit-dependencies -swift-version 5
+FULLSWIFT = -c $(SWIFT) $(SWIFT_LIB)
 
 ifdef DEBUG
 FULLSWIFT += $(SWIFTDEBUG)
