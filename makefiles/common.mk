@@ -13,10 +13,6 @@ end=\033[0m
 arrow=$(red)=> $(end)
 MUTE= 2>/dev/null; true
 
-# to be set in project's makefile
-ARCH := $(if $(ARCH),$(ARCH),arm64)
-OS := $(if $(OS),$(OS),14.5)
-
 TARGET := $(ARCH)-apple-ios$(OS)
 
 ROOT := ${DIYCOMPILE}
@@ -50,7 +46,7 @@ SWIFTOPTIMIZE := -O -num-threads 1
 # SWIFT := -module-name $(NAME) -F$(SDK)/System/Library/PrivateFrameworks -F$(ROOT)/lib -swift-version 5 -sdk "$(SDK)" -resource-dir $(ROOT)/toolchain/linux/iphone/bin/../lib/swift -incremental -target $(TARGET) -output-file-map $(DIR)/.build/output-file-map.json -emit-dependencies -emit-module-path $(DIR)/.build/$(NAME).swiftmodule
 SWIFT_LIB := -F$(SDK)/System/Library/PrivateFrameworks -F$(ROOT)/lib -resource-dir $(TOOLCHAIN)/lib/swift
 SWIFT := -emit-executable -o $(MKDIR)/$(NAME) -sdk $(SDK) -target $(TARGET) -F$(ROOT)/lib -incremental -output-file-map $(MKDIR)/output-file-map.json -emit-dependencies -swift-version 5
-FULLSWIFT = -c -use-ld=$(TBINS)/ld $(SWIFT) $(SWIFT_LIB)
+FULLSWIFT = -c $(SWIFT) $(SWIFT_LIB)
 
 # needed for ld to work
 export PATH := $(TBINS):$(PATH)

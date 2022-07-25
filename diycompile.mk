@@ -2,7 +2,9 @@
 # rather than manually do -Xcc [c flag] make a list of c flags and loop over them
 # fix intellisense by generating an appropriate package.swift or compile_commands.json (easier?)
 
-ARCH=arm64e
+# to be set in project's makefile
+ARCH := $(if $(ARCH),$(ARCH),arm64)
+OS := $(if $(OS),$(OS),14.5)
 
 MKPATH = $(DIYCOMPILE)/makefiles
 TYPE=""
