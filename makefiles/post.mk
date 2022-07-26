@@ -1,8 +1,25 @@
+DEB := $(MKDIR)/_/DEB
+
 clean:
 	@echo "$(arrow)$(green)Cleaning...$(end)"
 	
 	-@rm -r $(MKDIR) $(MUTE)
 	-@rm -r packages $(MUTE)
+
+deb:
+	@$(RERUN) all
+	@echo "$(arrow)$(green)Making deb...$(end)"
+			
+	-@mkdir -p packages/.old
+	@mv packages/*.deb packages/.old $(MUTE)
+
+	@cp control $(STAGE)/DEBIAN
+
+	$(eval COUNTER=$(shell [ -f $(DEB) ] && echo $$(($$(cat $(DEB)) + 1)) || echo 1))
+	@echo $(COUNTER) > $(DEB)
+
+	@cd $(STAGE) ;\
+	dpkg-deb -Zxz -z0 -b . $(DIR)/packages/$(PACKAGE)_$(VERSION)-$(COUNTER)_$(PLATFORM).deb > /dev/null;\
 
 install:
 	$(REMOTETEST)
@@ -11,3 +28,7 @@ install:
 	@echo "$(arrow)$(green)Installing to $(IP)...$(end)"
 	@scp packages/*.deb root@$(IP):/tmp/build.deb > /dev/null
 	@ssh root@$(IP) "dpkg -i /tmp/build.deb && uicache"
+
+remove:
+	$(REMOTETEST)
+	@ssh root@$(IP) "dpkg -r $(PACKAGE) && uicache"

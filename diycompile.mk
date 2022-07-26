@@ -14,11 +14,14 @@ ifdef APP_NAME
 else ifdef TOOL_NAME
 	TYPE=tool
 else
-	$(error  Type not defined! Ensure something like APP_NAME is set in makefile)
+$(error Type not defined! Ensure something like APP_NAME is set in makefile)
 endif
 
-# finally!
+# boilerplate
 include $(MKPATH)/common.mk
-include $(MKPATH)/types/$(TYPE).mk
 include $(MKPATH)/compile.mk
 include $(MKPATH)/post.mk
+
+# FINALLY!
+include $(MKPATH)/types/$(TYPE).mk
+

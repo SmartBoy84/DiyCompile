@@ -20,6 +20,7 @@ SDK := $(ROOT)/sdks/iPhoneOS$(OS).sdk
 
 DIR := $(shell pwd)
 MKDIR := $(DIR)/.build
+STAGE := $(MKDIR)/stage
 
 # scrape the control file for variables
 NAME := $(shell cat $(DIR)/control | awk 'match($$0, /^[n|N]ame:\s*(.*)$$/, arr) {print arr[1]}')
@@ -28,7 +29,7 @@ VERSION := $(shell cat $(DIR)/control | awk 'match($$0, /^[v|V]ersion:\s*(.*)$$/
 PLATFORM := $(shell cat $(DIR)/control | awk 'match($$0, /^[a|A]rchitecture:\s*(.*)$$/, arr) {print arr[1]}')
 
 REMOTETEST=@(([ "${IP}" ] || (echo "IP not defined"; exit 1)) && ssh root@$(IP) "echo" > /dev/null)
-RERUN := $(MAKE) --no-print-directory
+RERUN := $(MAKE) all --no-print-directory
 
 TOOLCHAIN := $(ROOT)/toolchain/iphone
 TBINS := $(TOOLCHAIN)/bin
