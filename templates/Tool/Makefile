@@ -6,6 +6,8 @@
 # INSTALL_PATH = /usr/local/bin
 
 TOOL_NAME = @@PROJECTNAME@@
+
 FILES = *.swift
+ENTITLEMENTS = entitlements.plist
 
 include $(DIYCOMPILE)/diycompile.mk

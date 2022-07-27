@@ -20,6 +20,11 @@ build:
 	@$(SWIFTC) $(FULLSWIFT) $(FILES)
 	@$(ROOT)/bin/CommandGen.js $(DIR) "$(FULLSWIFT)" $(FILES) > $(DIR)/compile_commands.json
 
+	@if [ ! -z DEBUG ]; then\
+		echo "$(arrow)$(green)Stripping binary$(end)"; \
+		$(TBINS)/strip -x $(MKDIR)/$(NAME) > /dev/null;\
+	fi
+
 	@mkdir -p $(STAGEDIR)
 	@mkdir -p $(STAGE)/DEBIAN
 	@mkdir -p $(MKDIR)/_
@@ -30,10 +35,4 @@ sign:
 	@touch $(MKDIR)/.swift-stamp.tmp;
 	
 	@echo "$(arrow)$(green)Signing the app...$(end)"
-	@CODESIGN_ALLOCATE=$(TBINS)/codesign_allocate
-	@$(TBINS)/ldid -S $(MKDIR)/$(NAME) > /dev/null
-
-	@if [ ! -z DEBUG ]; then\
-		echo "$(arrow)$(green)Stripping binary$(end)"; \
-		$(TBINS)/strip -x $(MKDIR)/$(NAME) > /dev/null;\
-	fi
+	@CODESIGN_ALLOCATE=$(TBINS)/codesign_allocate $(TBINS)/ldid -S$(ENTITLEMENTS) $(MKDIR)/$(NAME) > /dev/null

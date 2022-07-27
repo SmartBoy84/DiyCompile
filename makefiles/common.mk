@@ -29,7 +29,8 @@ VERSION := $(shell cat $(DIR)/control | awk 'match($$0, /^[v|V]ersion:\s*(.*)$$/
 PLATFORM := $(shell cat $(DIR)/control | awk 'match($$0, /^[a|A]rchitecture:\s*(.*)$$/, arr) {print arr[1]}')
 
 REMOTETEST=@(([ "${IP}" ] || (echo "IP not defined"; exit 1)) && ssh root@$(IP) "echo" > /dev/null)
-RERUN := $(MAKE) all --no-print-directory
+BUILD_TEST=	@if [ ! -f $(MKDIR)/$(NAME) ]; then echo "$(red)Run make first!$(end)"; $(RERUN) all; fi
+RERUN := $(MAKE) --no-print-directory
 
 TOOLCHAIN := $(ROOT)/toolchain/iphone
 TBINS := $(TOOLCHAIN)/bin

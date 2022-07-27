@@ -18,14 +18,16 @@ do:
 		echo "$(red)App isn't installed at all!$(end)"; \
 		$(RERUN) install; \
 	fi
-	-@ssh root@$(IP) "killall $(NAME); uiopen $(NAME)://"
+	@echo "$(arrow)$(green)Launching...$(end)"
+	-@ssh root@$(IP) "killall $(NAME) > /dev/null; uiopen $(NAME)://"
+
 post:
 	@echo "$(arrow)$(green)Staging package dirs$(end)"
 	@rsync --info=progress2 $(MKDIR)/$(NAME) $(DIR)/Resources/* $(STAGEDIR)/$(NAME).app
 	@sed -i "s/@@VERSION@@/$(VERSION)/g" $(STAGEDIR)/$(NAME).app/Info.plist
 
 ipa:
-	@$(RERUN) all
+	$(BUILD_TEST)
 	@echo "$(arrow)$(green)Making IPA...$(end)"
 
 	-@mkdir -p packages/.old
