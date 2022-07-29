@@ -4,7 +4,7 @@ STAGEDIR := $(STAGE)/$(INSTALL_PATH)
 do: scout build sign post deb install run
 
 post:
-	@echo "$(arrow)$(green) Staging package dirs$(end)"
+	@echo "$(arrow)$(green)Staging package dirs$(end)"
 	@cp $(MKDIR)/$(NAME) $(STAGEDIR)
 
 run:
