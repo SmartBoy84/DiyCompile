@@ -22,7 +22,6 @@ deb:
 	dpkg-deb -Zxz -z0 -b . $(DIR)/packages/$(PACKAGE)_$(VERSION)-$(COUNTER)_$(PLATFORM).deb > /dev/null;\
 
 install:
-	@echo "$(arrow)$(green)Installing...$(end)"
 	$(REMOTETEST)
 	@if [ ! -f packages/*.deb ]; then echo "$(red)Build a package first!$(end)"; $(RERUN) deb; fi
 	
