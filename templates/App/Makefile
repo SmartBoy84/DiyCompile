@@ -1,4 +1,4 @@
-SSH = root@le-carote
+CLIENT = root@le-carote
 
 OS = 14.5
 ARCH = arm64

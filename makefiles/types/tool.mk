@@ -10,16 +10,22 @@ post:
 	@cp $(MKDIR)/$(NAME) $(STAGEDIR)
 
 upload:
+	$(REMOTETEST)
+	
 	@echo "$(arrow)$(red)[WARNING] $(blue)Uploading static binary $(red)(did you mean to run $(green)make install$(red)?)$(end)"
-	@scp $(MKDIR)/$(NAME) $(SSH):$(INSTALL_PATH) > /dev/null
+	@$(SCP) $(MKDIR)/$(NAME) $(CLIENT):$(INSTALL_PATH)
 
 inject:
+	$(REMOTETEST)
+	
 	@if [ ! -z $(TRUST_BIN) ]; then\
  		echo "$(arrow)$(blue)Injecting into trustcache$(end)"; \
-		ssh $(SSH) "$(TRUST_BIN) $(NAME)"; \
+		$(SSH) "$(TRUST_BIN) $(INSTALL_PATH)/$(NAME) > /dev/null"; \
 	fi;\
 
 run:
+	$(REMOTETEST)
+	
 	@echo "$(arrow)$(green)Running...$(end)"
 	@echo ""
-	@ssh $(SSH) "$(INSTALL_PATH)/$(NAME)"
+	@$(SSH) "$(INSTALL_PATH)/$(NAME)"

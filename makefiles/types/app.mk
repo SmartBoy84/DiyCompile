@@ -15,15 +15,15 @@ do:
 	$(REMOTETEST)
 	@$(RERUN)
 	
-	@if ssh root@$(IP) "stat $(INSTALL_PATH)/$(NAME).app/$(NAME)" > /dev/null; then \
-		echo "$(arrow)$(green)Updating files to $(blue)$(IP)$(end)$(green)...$(end)"; \
-		rsync -ar --info=progress2 $(STAGEDIR)/$(NAME).app/ root@$(IP):/Applications/$(NAME).app/ --delete ; \
+	@if $(SSH) "stat $(INSTALL_PATH)/$(NAME).app/$(NAME)" > /dev/null; then \
+		echo "$(arrow)$(green)Updating files to $(blue)$(CLIENT)$(end)$(green)...$(end)"; \
+		rsync -ar --info=progress2 $(STAGEDIR)/$(NAME).app/ $(CLIENT):/Applications/$(NAME).app/ --delete ; \
 	else \
 		echo "$(red)App isn't installed at all!$(end)"; \
 		$(RERUN) install; \
 	fi
 	@echo "$(arrow)$(green)Launching...$(end)"
-	-@ssh root@$(IP) "killall $(NAME) > /dev/null; uiopen $(NAME)://"
+	-@$(SSH) "killall $(NAME) > /dev/null; uiopen $(NAME)://"
 
 post:
 	@echo "$(arrow)$(green)Staging package dirs$(end)"
