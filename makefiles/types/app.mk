@@ -1,19 +1,16 @@
-# boilerplate
-include $(MKPATH)/swift/compile.mk
-
 # excuse this
 INSTALL_PATH := $(if $(INSTALL_PATH),$(INSTALL_PATH),/Applications)
 STAGEDIR := $(STAGE)/$(INSTALL_PATH)
 
 IPA := $(MKDIR)/_/IPA
 
-all: special scout build strip sign post
-do: all deb install run
+all: config special scout build strip sign post
+# do: all deb install run
 
 # could make this universal but can you see why I'm not going to risk it? --delete (delete root?)
 do:
 	$(REMOTETEST)
-	@$(RERUN)
+	@$(RERUN) all
 	
 	@if $(SSH) "stat $(INSTALL_PATH)/$(NAME).app/$(NAME)" > /dev/null; then \
 		echo "$(arrow)$(green)Updating files to $(blue)$(CLIENT)$(end)$(green)...$(end)"; \
@@ -22,13 +19,15 @@ do:
 		echo "$(red)App isn't installed at all!$(end)"; \
 		$(RERUN) install; \
 	fi
-	@echo "$(arrow)$(green)Launching...$(end)"
-	-@$(SSH) "killall $(NAME) > /dev/null; uiopen $(NAME)://"
 
 post:
 	@echo "$(arrow)$(green)Staging package dirs$(end)"
 	@rsync --info=progress2 $(MKDIR)/$(NAME) $(DIR)/Resources/* $(STAGEDIR)/$(NAME).app
 	@sed -i "s/@@VERSION@@/$(VERSION)/g" $(STAGEDIR)/$(NAME).app/Info.plist
+
+run:
+	@echo "$(arrow)$(green)Launching...$(end)"
+	-@$(SSH) "killall $(NAME) > /dev/null; uiopen $(NAME)://"
 
 ipa:
 	$(BUILD_TEST)

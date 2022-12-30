@@ -20,7 +20,7 @@ inject:
 	$(REMOTETEST)
 	
 	@if [ ! -z $(TRUST_BIN) ]; then\
- 		echo "$(arrow)$(blue)Injecting into trustcache$(end)"; \
+ 		echo "$(arrow)$(green)Injecting into trustcache$(end)"; \
 		$(SSH) "$(TRUST_BIN) $(INSTALL_PATH)/$(NAME) > /dev/null"; \
 	fi;\
 
