@@ -1,7 +1,4 @@
-# DEBUG = 1
-
-# CODESIGN_FLAGS = -Sentitlements.plist
-# INSTALL_PATH = /usr/local/bin
+SSH = root@le-carote.strax
 
 OS = 14.5
 ARCH = arm64

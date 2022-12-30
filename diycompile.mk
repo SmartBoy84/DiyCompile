@@ -8,15 +8,25 @@ OS := $(if $(OS),$(OS),14.5)
 
 MKPATH = $(DIYCOMPILE)/makefiles
 TYPE=""
+LANG=""
 
 ifdef APP_NAME
 	TYPE=app
+	LANG=swift
 else ifdef SWIFT_NAME
-	TYPE=swift
+	TYPE=tool
+	LANG=swift
+else ifdef C_NAME
+	TYPE=tool
+	LANG=c
+else ifdef GO_NAME
+	TYPE=tool
+	LANG=go
 else
 $(error Type not defined! Ensure something like APP_NAME is set in makefile)
 endif
 
 # FINALLY!
+include $(MKPATH)/$(LANG)/compile.mk
 include $(MKPATH)/types/$(TYPE).mk
 
