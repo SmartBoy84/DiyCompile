@@ -6,7 +6,7 @@
 OS = 14.5
 ARCH = arm64
 
-TOOL_NAME = @@PROJECTNAME@@
+SWIFT_NAME = @@PROJECTNAME@@
 
 FILES = src/*.swift
 ENTITLEMENTS = entitlements.plist

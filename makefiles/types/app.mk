@@ -1,12 +1,15 @@
+# boilerplate
+include $(MKPATH)/swift/compile.mk
+
 # excuse this
-INSTALL_PATH := /Applications
-STAGEDIR := $(STAGE)/Applications
+INSTALL_PATH := $(if $(INSTALL_PATH),$(INSTALL_PATH),/Applications)
+STAGEDIR := $(STAGE)/$(INSTALL_PATH)
 
 IPA := $(MKDIR)/_/IPA
 
-all: scout build sign post
+all: config scout build sign post
 
-# could make this universal but can you see why I'm not going to risk it?
+# could make this universal but can you see why I'm not going to risk it? --delete (delete root?)
 do:
 	$(REMOTETEST)
 	@$(RERUN)

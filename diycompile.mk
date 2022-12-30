@@ -11,16 +11,11 @@ TYPE=""
 
 ifdef APP_NAME
 	TYPE=app
-else ifdef TOOL_NAME
-	TYPE=tool
+else ifdef SWIFT_NAME
+	TYPE=swift
 else
 $(error Type not defined! Ensure something like APP_NAME is set in makefile)
 endif
-
-# boilerplate
-include $(MKPATH)/common.mk
-include $(MKPATH)/compile.mk
-include $(MKPATH)/post.mk
 
 # FINALLY!
 include $(MKPATH)/types/$(TYPE).mk
