@@ -12,7 +12,8 @@ post:
 upload:
 	$(REMOTETEST)
 	
-	@echo "$(arrow)$(red)[WARNING] $(blue)Uploading static binary $(red)(did you mean to run $(green)make install$(red)?)$(end)"
+	@echo "$(arrow)$(red)[WARNING] $(blue)Removing old and uploading new static binary $(red)(did you mean to run $(green)make install$(red)?)$(end)"
+	@$(SSH) "rm $(INSTALL_PATH)/$(NAME)"
 	@$(SCP) $(MKDIR)/$(NAME) $(CLIENT):$(INSTALL_PATH)
 
 inject:
