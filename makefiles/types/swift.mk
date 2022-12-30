@@ -1,7 +1,10 @@
+# boilerplate
+include $(MKPATH)/swift/compile.mk
+
 INSTALL_PATH := $(if $(INSTALL_PATH),$(INSTALL_PATH),/usr/local/bin)
 STAGEDIR := $(STAGE)/$(INSTALL_PATH)
 
-do: scout build sign post deb install run
+do: config scout build sign post deb install run
 
 post:
 	@echo "$(arrow)$(green)Staging package dirs$(end)"
