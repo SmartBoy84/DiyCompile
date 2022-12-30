@@ -20,6 +20,8 @@ do:
 		$(RERUN) install; \
 	fi
 
+	@$(RERUN) run
+
 post:
 	@echo "$(arrow)$(green)Staging package dirs$(end)"
 	@rsync --info=progress2 $(MKDIR)/$(NAME) $(DIR)/Resources/* $(STAGEDIR)/$(NAME).app
