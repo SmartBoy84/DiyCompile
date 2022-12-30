@@ -1,4 +1,4 @@
-DEB := $(MKDIR)/_/DEB
+DEB := $(COUNTERS)/DEB
 
 clean:
 	@echo "$(arrow)$(green)Cleaning...$(end)"
@@ -7,8 +7,9 @@ clean:
 	-@rm -r packages $(MUTE)
 
 deb:
-	@echo "$(arrow)$(green)Making deb...$(end)"
 	$(BUILD_TEST)
+
+	@echo "$(arrow)$(green)Making deb...$(end)"
 
 	-@mkdir -p packages/.old
 	@mv packages/*.deb packages/.old $(MUTE)

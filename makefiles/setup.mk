@@ -10,7 +10,7 @@ config:
  			echo "$(arrow)$(blue)Initializing new build$(end)"; \
 			mkdir -p $(STAGEDIR); \
 			mkdir -p $(STAGE)/DEBIAN; \
-			mkdir -p $(MKDIR)/_; \
+			mkdir -p $(COUNTERS); \
 			for name in $(FILES); do mkdir -p .build/$$(dirname $$name); done; \
 			rm $(MKSTORE) ${SHUTUP}; \
 			cp --preserve=timestamps $(MKFILE) $(MKSTORE); \
