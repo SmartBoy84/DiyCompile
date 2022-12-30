@@ -7,6 +7,7 @@ MAINTAINER=$USER
 
 # select type
 templates=($DIYCOMPILE/templates/*)
+echo $templates
 
 for i in "${!templates[@]}"; do templates[$i]=${templates[$i]##*/}; done
 select option in ${templates[*]}; do # in "$@" is the default

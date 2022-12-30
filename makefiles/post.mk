@@ -21,14 +21,24 @@ deb:
 	@cd $(STAGE) ;\
 	dpkg-deb -Zxz -z0 -b . $(DIR)/packages/$(PACKAGE)_$(VERSION)-$(COUNTER)_$(PLATFORM).deb > /dev/null;\
 
+strip:
+	@if [ ! -z DEBUG ]; then\
+		echo "$(arrow)$(green)Stripping binary$(end)"; \
+		$(TBINS)/strip -x $(MKDIR)/$(NAME) > /dev/null;\
+	fi
+
 install:
 	$(REMOTETEST)
 	@if [ ! -f packages/*.deb ]; then echo "$(red)Build a package first!$(end)"; $(RERUN) deb; fi
 	
-	@echo "$(arrow)$(green)Installing to $(IP)...$(end)"
-	@scp packages/*.deb root@$(IP):/tmp/build.deb > /dev/null
-	@ssh root@$(IP) "dpkg -i /tmp/build.deb && uicache"
+	@echo "$(arrow)$(green)Installing to $(SSH)...$(end)"
+	@scp packages/*.deb $(SSH):/tmp/build.deb > /dev/null
+	@ssh $(SSH) "dpkg -i /tmp/build.deb && uicache"
 
 remove:
 	$(REMOTETEST)
-	@ssh root@$(IP) "dpkg -r $(PACKAGE) && uicache"
+	@ssh $(SSH) "dpkg -r $(PACKAGE) && uicache"
+
+sign:
+	@echo "$(arrow)$(green)Signing the app...$(end)"
+	@CODESIGN_ALLOCATE=$(TBINS)/codesign_allocate $(TBINS)/ldid -S$(ENTITLEMENTS) $(MKDIR)/$(NAME) > /dev/null

@@ -1,10 +1,9 @@
-# boilerplate
-include $(MKPATH)/swift/compile.mk
 
 INSTALL_PATH := $(if $(INSTALL_PATH),$(INSTALL_PATH),/usr/local/bin)
 STAGEDIR := $(STAGE)/$(INSTALL_PATH)
 
-do: config scout build sign post deb install run
+all: config special build strip sign post
+do: config special build strip sign post deb install run
 
 post:
 	@echo "$(arrow)$(green)Staging package dirs$(end)"
@@ -12,4 +11,5 @@ post:
 
 run:
 	@echo "$(arrow)$(green)Running...$(end)"
-	@ssh mobile@$(IP) "$(INSTALL_PATH)/$(NAME)"
+	@echo ""
+	@ssh $(SSH) "$(INSTALL_PATH)/$(NAME)"

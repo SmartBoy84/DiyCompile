@@ -26,7 +26,7 @@ PLATFORM := $(shell cat $(DIR)/control | awk 'match($$0, /^[a|A]rchitecture:\s*(
 MKDIR := $(DIR)/.build
 STAGE := $(MKDIR)/stage
 
-REMOTETEST=@(([ "${IP}" ] || (echo "IP not defined"; exit 1)) && ssh root@$(IP) "echo" > /dev/null)
+REMOTETEST=@(([ "${SSH}" ] || (echo "IP not defined"; exit 1)) && ssh $(SSH) "echo" > /dev/null)
 BUILD_TEST=	@if [ ! -f $(MKDIR)/$(NAME) ]; then echo "$(red)Run make first!$(end)"; $(RERUN) all; fi
 RERUN := $(MAKE) --no-print-directory
 

@@ -1,7 +1,4 @@
-# todo
-# Gradi_PRIVATE_FRAMEWORKS = CoverSheet PlatterKit SpringBoard MediaRemote FrontBoard
-
-# DEBUG = 1
+SSH = root@le-carote
 
 OS = 14.5
 ARCH = arm64
