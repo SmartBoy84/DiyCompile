@@ -8,7 +8,7 @@ STAGEDIR := $(STAGE)/$(INSTALL_PATH)
 IPA := $(MKDIR)/_/IPA
 
 all: special scout build strip sign post
-do: special scout build strip sign post deb install run
+do: all deb install run
 
 # could make this universal but can you see why I'm not going to risk it? --delete (delete root?)
 do:
