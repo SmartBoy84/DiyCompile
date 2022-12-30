@@ -1,4 +1,4 @@
-DEB := $(MKDIR)/_/DEB
+DEB := $(COUNTERS)/DEB
 
 clean:
 	@echo "$(arrow)$(green)Cleaning...$(end)"
@@ -7,8 +7,9 @@ clean:
 	-@rm -r packages $(MUTE)
 
 deb:
-	@echo "$(arrow)$(green)Making deb...$(end)"
 	$(BUILD_TEST)
+
+	@echo "$(arrow)$(green)Making deb...$(end)"
 
 	-@mkdir -p packages/.old
 	@mv packages/*.deb packages/.old $(MUTE)
@@ -31,13 +32,13 @@ install:
 	$(REMOTETEST)
 	@if [ ! -f packages/*.deb ]; then echo "$(red)Build a package first!$(end)"; $(RERUN) deb; fi
 	
-	@echo "$(arrow)$(green)Installing to $(SSH)...$(end)"
-	@scp packages/*.deb $(SSH):/tmp/build.deb > /dev/null
-	@ssh $(SSH) "dpkg -i /tmp/build.deb && uicache"
+	@echo "$(arrow)$(green)Installing to $(CLIENT)...$(end)"
+	@$(SCP) packages/*.deb $(CLIENT):/tmp/build.deb > /dev/null
+	@$(SSH) "dpkg -i /tmp/build.deb && uicache"
 
 remove:
 	$(REMOTETEST)
-	@ssh $(SSH) "dpkg -r $(PACKAGE) && uicache"
+	@$(SSH) "dpkg -r $(PACKAGE) && uicache"
 
 sign:
 	@echo "$(arrow)$(green)Signing the app...$(end)"

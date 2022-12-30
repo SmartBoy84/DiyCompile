@@ -11,4 +11,7 @@
 # CUSTOM_$(LANG) =
 
 # PORT = 22
+
+# this is for personal use, checkout (this)[https://github.com/SmartBoy84/Weazol/]!
+#TRUST_BIN = /trust
 ```

@@ -1,34 +1,38 @@
-# boilerplate
-include $(MKPATH)/swift/compile.mk
-
 # excuse this
 INSTALL_PATH := $(if $(INSTALL_PATH),$(INSTALL_PATH),/Applications)
 STAGEDIR := $(STAGE)/$(INSTALL_PATH)
 
-IPA := $(MKDIR)/_/IPA
+IPA := $(COUNTERS)/IPA
 
-all: special scout build strip sign post
-do: special scout build strip sign post deb install run
+all: config special scout build strip sign post
+# do: all deb install run
 
 # could make this universal but can you see why I'm not going to risk it? --delete (delete root?)
+LOCAL_APP_DIR := $(STAGEDIR)/$(NAME).app
+REMOTE_APP_DIR := $(INSTALL_PATH)/$(NAME).app/
+
 do:
 	$(REMOTETEST)
-	@$(RERUN)
+	@$(RERUN) all
 	
-	@if ssh root@$(IP) "stat $(INSTALL_PATH)/$(NAME).app/$(NAME)" > /dev/null; then \
-		echo "$(arrow)$(green)Updating files to $(blue)$(IP)$(end)$(green)...$(end)"; \
-		rsync -ar --info=progress2 $(STAGEDIR)/$(NAME).app/ root@$(IP):/Applications/$(NAME).app/ --delete ; \
+	@if $(SSH) "stat $(REMOTE_APP_DIR)/$(NAME)" > /dev/null; then \
+		echo "$(arrow)$(green)Updating files to $(blue)$(CLIENT)$(end)$(green)...$(end)"; \
+		rsync -ar --info=progress2 $(LOCAL_APP_DIR)/ $(CLIENT):/$(REMOTE_APP_DIR)/ --delete ; \
 	else \
 		echo "$(red)App isn't installed at all!$(end)"; \
 		$(RERUN) install; \
 	fi
-	@echo "$(arrow)$(green)Launching...$(end)"
-	-@ssh root@$(IP) "killall $(NAME) > /dev/null; uiopen $(NAME)://"
+
+	@$(RERUN) run
 
 post:
 	@echo "$(arrow)$(green)Staging package dirs$(end)"
-	@rsync --info=progress2 $(MKDIR)/$(NAME) $(DIR)/Resources/* $(STAGEDIR)/$(NAME).app
-	@sed -i "s/@@VERSION@@/$(VERSION)/g" $(STAGEDIR)/$(NAME).app/Info.plist
+	@rsync --info=progress2 $(MKDIR)/$(NAME) $(DIR)/Resources/* $(LOCAL_APP_DIR)
+	@sed -i "s/@@VERSION@@/$(VERSION)/g" $(LOCAL_APP_DIR)//Info.plist
+
+run:
+	@echo "$(arrow)$(green)Launching...$(end)"
+	-@$(SSH) "killall $(NAME) > /dev/null; uiopen $(NAME)://"
 
 ipa:
 	$(BUILD_TEST)
@@ -40,7 +44,7 @@ ipa:
 	$(eval COUNTER=$(shell [ -f $(IPA) ] && echo $$(($$(cat $(IPA)) + 1)) || echo 0))
 	@echo $(COUNTER) > $(IPA)
 
-	@cd $(STAGEDIR)/.. ;\
-	mv $(FOLDER) Payload ;\
-	zip -rq $(DIR)/packages/$(NAME)-$(VERSION)_$(COUNTER).ipa Payload ;\
-	mv Payload $(FOLDER) ;\
+	@mkdir $(MKDIR)/Payload $(SHUTUP)
+	@mv $(LOCAL_APP_DIR) $(MKDIR)/Payload/
+	@cd $(MKDIR); zip -ryq $(DIR)/packages/$(NAME)-$(VERSION)_$(COUNTER).ipa Payload;\
+	@mv $(MKDIR)/Payload/* $(LOCAL_APP_DIR)

@@ -1,3 +1,5 @@
+SSH := ssh -p $(PORT) $(CLIENT)
+SCP := scp -q -P $(PORT)
 
 # this is for stuff I just do NOT give a damn about
 SHUTUP=2> /dev/null ||:
@@ -25,8 +27,9 @@ PLATFORM := $(shell cat $(DIR)/control | awk 'match($$0, /^[a|A]rchitecture:\s*(
 
 MKDIR := $(DIR)/.build
 STAGE := $(MKDIR)/stage
+COUNTERS := $(MKDIR)/_
 
-REMOTETEST=@(([ "${SSH}" ] || (echo "IP not defined"; exit 1)) && ssh $(SSH) "echo" > /dev/null)
+REMOTETEST=@(([ "${CLIENT}" ] || (echo "IP not defined"; exit 1)) && $(SSH) "echo" > /dev/null)
 BUILD_TEST=	@if [ ! -f $(MKDIR)/$(NAME) ]; then echo "$(red)Run make first!$(end)"; $(RERUN) all; fi
 RERUN := $(MAKE) --no-print-directory
 
