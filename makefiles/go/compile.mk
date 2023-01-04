@@ -14,6 +14,7 @@ prelim:
 	fi;\
 	
 	@echo "$(arrow)$(blue)Tidying up...$(end)"
+	@go mod tidy
 
 build: prelim
 	@echo "$(arrow)$(green)Building go app...$(end)"
