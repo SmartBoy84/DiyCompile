@@ -14,7 +14,7 @@ scout:
 
 build: config scout
 	@echo "$(arrow)$(green)Building swift app...$(end)"
-	@$(SWIFTC) $(FULLSWIFT)
+	@$(SWIFTC) $(FULLSWIFT) $(FILES)
 #compile_commands.json needs to be in the same dir as package.swift in order to have working intellisaense in vs-code and other code editors
 	@$(ROOT)/bin/CommandGen.js $(DIR) "$(FULLSWIFT)" $(FILES) > $(DIR)/compile_commands.json
 

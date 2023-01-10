@@ -36,5 +36,8 @@ RERUN := $(MAKE) --no-print-directory
 TOOLCHAIN := $(ROOT)/toolchain/linux/iphone
 TBINS := $(TOOLCHAIN)/bin
 
+# must expand files to get working compile_commands.json
+FILES := $(shell echo $(FILES))
+
 # needed for ld to work
 export PATH := $(TBINS):$(PATH)
