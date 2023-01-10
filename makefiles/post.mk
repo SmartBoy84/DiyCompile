@@ -15,7 +15,7 @@ deb:
 	@mv packages/*.deb packages/.old $(MUTE)
 
 	@cp control $(STAGE)/DEBIAN
-	@cp layout/* $(STAGE)
+	@cp -r layout/* $(STAGE) > /dev/null $(SHUTUP)
 
 	$(eval COUNTER=$(shell [ -f $(DEB) ] && echo $$(($$(cat $(DEB)) + 1)) || echo 1))
 	@echo $(COUNTER) > $(DEB)
