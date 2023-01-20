@@ -4,7 +4,7 @@
 
 # DEBUG = 1
 
-# CODESIGN_FLAGS = -Sentitlements.plist
+# ENTITLEMENTS = entitlements.plist
 # INSTALL_PATH = /usr/local/bin
 
 # specify custom flags, e.g., CUSTOM_GO
