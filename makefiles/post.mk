@@ -2,7 +2,7 @@ DEB := $(COUNTERS)/DEB
 
 clean:
 	@echo "$(arrow)$(green)Cleaning...$(end)"
-	
+
 	-@rm -r $(MKDIR) $(MUTE)
 	-@rm -r packages $(MUTE)
 
@@ -32,7 +32,7 @@ strip:
 install:
 	$(REMOTETEST)
 	@if [ ! -f packages/*.deb ]; then echo "$(red)Build a package first!$(end)"; $(RERUN) deb; fi
-	
+
 	@echo "$(arrow)$(green)Installing to $(CLIENT)...$(end)"
 	@$(SCP) packages/*.deb $(CLIENT):/tmp/build.deb > /dev/null
 	@$(SSH) "dpkg -i /tmp/build.deb && uicache"

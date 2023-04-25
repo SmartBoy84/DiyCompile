@@ -14,7 +14,7 @@ REMOTE_APP_DIR := $(INSTALL_PATH)/$(NAME).app/
 do:
 	$(REMOTETEST)
 	@$(RERUN) all
-	
+
 	@if $(SSH) "stat $(REMOTE_APP_DIR)/$(NAME)" > /dev/null; then \
 		echo "$(arrow)$(green)Updating files to $(blue)$(CLIENT)$(end)$(green)...$(end)"; \
 		rsync -ar --info=progress2 $(LOCAL_APP_DIR)/ $(CLIENT):/$(REMOTE_APP_DIR)/ --delete ; \

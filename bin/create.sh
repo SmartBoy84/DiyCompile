@@ -1,5 +1,11 @@
 # target, name, files to compile and link, frameworks to import, debugging, device ip
-# default values
+
+# makefile defaults
+CLIENT="root@carrot"
+OS="14.5"
+ARCH="arm64"
+
+# control default
 TYPE=""
 NAME=""
 PACKAGE=""
@@ -45,10 +51,18 @@ fi
 mkdir $NAME
 cp -r $DIYCOMPILE/templates/$TYPE/* $NAME &> /dev/null
 
+# set control variable
 sed -i "s/@@PROJECTNAME@@/$NAME/g" $NAME/control
-sed -i "s/@@PACKAGENAME@@/${PACKAGE}/g" $NAME/control
+sed -i "s/@@PACKAGENAME@@/$PACKAGE/g" $NAME/control
 sed -i "s/@@USER@@/$MAINTAINER/g" $NAME/control
+
+# set makefile variable
 sed -i "s/@@PROJECTNAME@@/$NAME/g" $NAME/Makefile
+
+# set makefile constant
+sed -i "s/@@CLIENT@@/$CLIENT/g" $NAME/Makefile
+sed -i "s/@@OS@@/$OS/g" $NAME/Makefile
+sed -i "s/@@ARCH@@/$ARCH/g" $NAME/Makefile
 
 # project specific stuff
 case ${TYPE,,} in

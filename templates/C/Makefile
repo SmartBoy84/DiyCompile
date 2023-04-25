@@ -1,7 +1,7 @@
-CLIENT = root@le-carote.strax
+CLIENT = @@CLIENT@@
 
-OS = 14.5
-ARCH = arm64
+OS = @@OS@@
+ARCH = @@ARCH@@
 
 C_NAME = @@PROJECTNAME@@
 FILES = *.c

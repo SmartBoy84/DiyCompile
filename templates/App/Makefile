@@ -1,7 +1,7 @@
-CLIENT = root@le-carote
+CLIENT = @@CLIENT@@
 
-OS = 14.5
-ARCH = arm64
+OS = @@OS@@
+ARCH = @@ARCH@@
 
 APP_NAME = @@PROJECTNAME@@
 FILES = src/*.swift
