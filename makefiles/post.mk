@@ -19,7 +19,7 @@ deb:
 
 	@if [ -z GIMME_PERM ]; then\
 		echo "/usr/bin/snoopy add $(PACKAGE) $(INSTALL_PATH)/$(NAME)" > $(STAGE)/DEBIAN/postinst; \
-		echo "/usr/bin/snoop remove $(PACKAGE) $(INSTALL_PATH)/$(NAME)" > $(STAGE)/DEBIAN/prerm; \
+		echo "/usr/bin/snoopy remove $(PACKAGE) $(INSTALL_PATH)/$(NAME)" > $(STAGE)/DEBIAN/prerm; \
 		chmod +x $(STAGE)/DEBIAN/post*; \
 		chmod 0755 $(STAGE)/DEBIAN/post*; \
 		if grep -q "^Depends:" "$(STAGE)/DEBIAN/control"; then sed -i "/^Depends:/ s/$$/, $(SNOOPY)/" "$(STAGE)/DEBIAN/control"; else echo "Depends: $(SNOOPY)" >> "$(STAGE)/DEBIAN/control"; fi;\
