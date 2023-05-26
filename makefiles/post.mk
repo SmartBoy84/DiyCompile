@@ -1,4 +1,5 @@
 DEB := $(COUNTERS)/DEB
+SNOOPY := com.barfie.snoopy
 
 clean:
 	@echo "$(arrow)$(green)Cleaning...$(end)"
@@ -15,6 +16,15 @@ deb:
 	@mv packages/*.deb packages/.old $(MUTE)
 
 	@cp control $(STAGE)/DEBIAN
+
+	@if [ ! -z GIMME_PERM ]; then\
+		echo "snoopy add $(PACKAGE) $(INSTALL_PATH)/$(NAME)" > $(STAGE)/DEBIAN/postinst; \
+		echo "snoop remove $(PACKAGE) $(INSTALL_PATH)/$(NAME)" > $(STAGE)/DEBIAN/postrm; \
+		chmod +x $(STAGE)/DEBIAN/post*; \
+		chmod 0755 $(STAGE)/DEBIAN/post*; \
+		if grep -q "^Depends:" "$(STAGE)/DEBIAN/control"; then sed -i "/^Depends:/ s/$$/, $(SNOOPY)/" "$(STAGE)/DEBIAN/control"; else echo "Depends: $(SNOOPY)" >> "$(STAGE)/DEBIAN/control"; fi;\
+	fi;
+
 	@cp -r layout/* $(STAGE) > /dev/null $(SHUTUP)
 
 	$(eval COUNTER=$(shell [ -f $(DEB) ] && echo $$(($$(cat $(DEB)) + 1)) || echo 1))
