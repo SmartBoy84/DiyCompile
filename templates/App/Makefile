@@ -1,4 +1,5 @@
 CLIENT = @@CLIENT@@
+INSTALL_PATH = /Applications
 
 OS = @@OS@@
 ARCH = @@ARCH@@
