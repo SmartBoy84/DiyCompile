@@ -65,11 +65,18 @@ sed -i "s/@@OS@@/$OS/g" $NAME/Makefile
 sed -i "s/@@ARCH@@/$ARCH/g" $NAME/Makefile
 
 # project specific stuff
+INFO_PLIST=""
 case ${TYPE,,} in
     app)
-        sed -i "s/@@PROJECTNAME@@/${NAME}/g" $NAME/Resources/Info.plist
-        sed -i "s/@@PACKAGENAME@@/${PACKAGE}/g" $NAME/Resources/Info.plist
+        INFO_PLIST=$NAME/Resources/Info.plist
     ;;
-    tool)
+    swift)
+        INFO_PLIST=$NAME/Info.plist
     ;;
 esac
+
+if [[ -n "$INFO_PLIST" ]]; then
+    sed -i "s/@@PROJECTNAME@@/${NAME}/g" $INFO_PLIST
+    sed -i "s/@@PACKAGENAME@@/${PACKAGE}/g" $INFO_PLIST
+    sed -i "s/@@VERSION@@/${OS}/g" $INFO_PLIST
+fi
