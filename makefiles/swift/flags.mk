@@ -22,7 +22,7 @@ SWIFTOPTIMIZE := -O -num-threads 1
 PLIST := $(if $(INFO), -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __info_plist -Xlinker $(INFO),)
 SWIFT_LIB = -F$(SDK)/System/Library/PrivateFrameworks -F$(ROOT)/lib -resource-dir $(TOOLCHAIN)/lib/swift
 
-SWIFT = -emit-executable -o $(MKDIR)/$(NAME) -sdk $(SDK) -target $(TARGET) -F$(ROOT)/lib -incremental -output-file-map $(MKDIR)/output-file-map.json -emit-dependencies -swift-version 5
+SWIFT = -emit-executable -o $(MKDIR)/$(NAME) -sdk $(SDK) -target $(TARGET) -F$(ROOT)/lib -incremental -output-file-map $(MKDIR)/output-file-map.json -emit-dependencies -swift-version 5 -parse-as-library
 FULLSWIFT = -c $(SWIFT) $(SWIFT_LIB) $(PLIST) $(CUSTOM_SWIFT)
 
 ifdef DEBUG
