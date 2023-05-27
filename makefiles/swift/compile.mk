@@ -8,12 +8,12 @@ include $(MKPATH)/swift/flags.mk
 special: scout
 
 scout:
-	@echo "$(arrow)$(green)Configuring...$(end)"
+	@echo "$(arrow)$(green)Configuring$(end)"
 	@echo "mksystem=${DIYCOMPILE}\nsdk=$(SDK)\nios=$(OS)\narch=$(ARCH)\nresourceDir=$(TOOLCHAIN)/lib/swift" > $(MKDIR)/.spm.conf;
 	@$(ROOT)/bin/FileMapGenerator.js $(MKDIR) $(FILES) > $(MKDIR)/output-file-map.json
 
 build: config scout
-	@echo "$(arrow)$(green)Building swift app...$(end)"
+	@echo "$(arrow)$(green)Building swift app$(end)"
 	@$(SWIFTC) $(FULLSWIFT) $(FILES)
 #compile_commands.json needs to be in the same dir as package.swift in order to have working intellisaense in vs-code and other code editors
 	@$(ROOT)/bin/CommandGen.js $(DIR) "$(FULLSWIFT)" $(FILES) > $(DIR)/compile_commands.json

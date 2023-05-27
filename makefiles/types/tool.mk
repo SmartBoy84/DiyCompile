@@ -5,9 +5,21 @@ all: config special build strip sign post
 raw: all upload inject run
 do: all deb install inject run
 
+# ln -rs important as I want it to be relative
+
 post:
 	@echo "$(arrow)$(green)Staging package dirs$(end)"
-	@cp $(MKDIR)/$(NAME) $(STAGEDIR)
+	
+	@if [ $(GIMME_PERM) -eq 1 ]; then\
+		echo "$(arrow)$(blue)Setting up /Applications hack for permissions$(end)";\
+		mkdir -p $(STAGE)/Applications/$(NAME).app;\
+		mv $(MKDIR)/$(NAME) $(STAGE)/Applications/$(NAME).app;\
+		ln -rsf /Applications/$(NAME).app/$(NAME) $(STAGEDIR)/$(NAME);\
+		cp Info.plist $(STAGE)/Applications/$(NAME).app;\
+		INSTALL_PATH=/Applications/$(NAME).app;\
+	else\
+		cp $(MKDIR)/$(NAME) $(STAGEDIR);\
+	fi;
 
 upload:
 	$(REMOTETEST)

@@ -2,7 +2,7 @@ DEB := $(COUNTERS)/DEB
 SNOOPY := com.barfie.snoopy
 
 clean:
-	@echo "$(arrow)$(green)Cleaning...$(end)"
+	@echo "$(arrow)$(green)Cleaning$(end)"
 
 	-@rm -r $(MKDIR) $(MUTE)
 	-@rm -r packages $(MUTE)
@@ -10,7 +10,7 @@ clean:
 deb:
 	$(BUILD_TEST)
 
-	@echo "$(arrow)$(green)Making deb...$(end)"
+	@echo "$(arrow)$(green)Making deb$(end)"
 
 	-@mkdir -p packages/.old
 	@mv packages/*.deb packages/.old $(MUTE)
@@ -54,5 +54,5 @@ remove:
 	@$(SSH) "dpkg -r $(PACKAGE) && uicache"
 
 sign:
-	@echo "$(arrow)$(green)Signing the app...$(end)"
+	@echo "$(arrow)$(green)Signing the app$(end)"
 	@CODESIGN_ALLOCATE=$(TBINS)/codesign_allocate $(TBINS)/ldid -S$(ENTITLEMENTS) $(MKDIR)/$(NAME) > /dev/null

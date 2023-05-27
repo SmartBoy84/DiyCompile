@@ -18,10 +18,10 @@ do:
 	@$(RERUN) all
 
 	@if $(SSH) "stat $(REMOTE_APP_DIR)/$(NAME)" > /dev/null; then \
-		echo "$(arrow)$(green)Updating files to $(blue)$(CLIENT)$(end)$(green)...$(end)"; \
+		echo "$(arrow)$(green)Updating files to $(blue)$(CLIENT)$(end)$(green)$(end)"; \
 		rsync -ar --info=progress2 $(LOCAL_APP_DIR)/ $(CLIENT):/$(REMOTE_APP_DIR)/ --delete ; \
 	else \
-		echo "$(red)App isn't installed at all!$(end)"; \
+		echo "	$(red)App isn't installed at all!$(end)"; \
 		$(RERUN) install; \
 	fi
 
@@ -33,12 +33,12 @@ post:
 	@sed -i "s/@@VERSION@@/$(VERSION)/g" $(LOCAL_APP_DIR)//Info.plist
 
 run:
-	@echo "$(arrow)$(green)Launching...$(end)"
+	@echo "$(arrow)$(green)Launching$(end)"
 	-@$(SSH) "killall $(NAME) > /dev/null; uiopen $(NAME)://"
 
 ipa:
 	$(BUILD_TEST)
-	@echo "$(arrow)$(green)Making IPA...$(end)"
+	@echo "$(arrow)$(green)Making IPA$(end)"
 
 	-@mkdir -p packages/.old
 	-@mv packages/*.ipa packages/.old ${SHUTUP}

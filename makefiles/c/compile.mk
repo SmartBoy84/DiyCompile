@@ -8,5 +8,5 @@ include $(MKPATH)/go/flags.mk
 special:
 
 build:
-	@echo "$(arrow)$(green)Building C app...$(end)"
+	@echo "$(arrow)$(green)Building C app$(end)"
 	@$(CLANG) $(FULL_CLANG)

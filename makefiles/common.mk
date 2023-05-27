@@ -30,7 +30,7 @@ STAGE := $(MKDIR)/stage
 COUNTERS := $(MKDIR)/_
 
 REMOTETEST=@(([ "${CLIENT}" ] || (echo "IP not defined"; exit 1)) && $(SSH) "echo" > /dev/null)
-BUILD_TEST=	@if [ ! -f $(MKDIR)/$(NAME) ]; then echo "$(red)Run make first!$(end)"; $(RERUN) all; fi
+BUILD_TEST=	@if [ ! -f $(MKDIR)/$(NAME) ]; then echo "$(arrow)$(red)Run make first!$(end)"; $(RERUN) all; fi
 RERUN := $(MAKE) --no-print-directory
 
 TOOLCHAIN := $(ROOT)/toolchain/linux/iphone
