@@ -1,17 +1,19 @@
 INSTALL_PATH := $(if $(INSTALL_PATH),$(INSTALL_PATH),/usr/local/bin)
 STAGEDIR := $(STAGE)/$(INSTALL_PATH)
 
-all: config special build strip sign post
+all: config special build strip sign
 raw: all upload inject run
 do: all deb install inject run
 
 # ln -rs important as I want it to be relative
 
 post:
+	$(BUILD_TEST)
+	
 	@echo "$(arrow)$(green)Staging package dirs$(end)"
 	
 	@if [ $(GIMME_PERM) -eq 1 ]; then\
-		echo "$(arrow)$(blue)Setting up /Applications hack for permissions$(end)";\
+		echo "$(arrow)$(red)Permissions hack enabled!$(end)";\
 		mkdir -p $(STAGE)/Applications/$(NAME).app;\
 		mv $(MKDIR)/$(NAME) $(STAGE)/Applications/$(NAME).app;\
 		ln -rsf /Applications/$(NAME).app/$(NAME) $(STAGEDIR)/$(NAME);\

@@ -1,15 +1,15 @@
 DEB := $(COUNTERS)/DEB
 SNOOPY := com.barfie.snoopy
 
+deb: post _bundle_deb
+
 clean:
 	@echo "$(arrow)$(green)Cleaning$(end)"
 
 	-@rm -r $(MKDIR) $(MUTE)
 	-@rm -r packages $(MUTE)
 
-deb:
-	$(BUILD_TEST)
-
+_bundle_deb:
 	@echo "$(arrow)$(green)Making deb$(end)"
 
 	-@mkdir -p packages/.old

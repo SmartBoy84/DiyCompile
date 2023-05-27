@@ -6,7 +6,8 @@ IPA := $(COUNTERS)/IPA
 # I don't know why it needs this
 FULLSWIFT += -parse-as-library
 
-all: config special scout build strip sign post
+all: config special scout build strip sign
+ipa: post _bundle_ipa
 # do: all deb install run
 
 # could make this universal but can you see why I'm not going to risk it? --delete (delete root?)
@@ -28,6 +29,8 @@ do:
 	@$(RERUN) run
 
 post:
+	$(BUILD_TEST)
+
 	@echo "$(arrow)$(green)Staging package dirs$(end)"
 	@rsync --info=progress2 $(MKDIR)/$(NAME) $(DIR)/Resources/* $(LOCAL_APP_DIR)
 	@sed -i "s/@@VERSION@@/$(VERSION)/g" $(LOCAL_APP_DIR)//Info.plist
@@ -36,8 +39,7 @@ run:
 	@echo "$(arrow)$(green)Launching$(end)"
 	-@$(SSH) "killall $(NAME) > /dev/null; uiopen $(NAME)://"
 
-ipa:
-	$(BUILD_TEST)
+_bundle_ipa:
 	@echo "$(arrow)$(green)Making IPA$(end)"
 
 	-@mkdir -p packages/.old
