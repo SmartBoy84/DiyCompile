@@ -17,7 +17,6 @@ post:
 		mkdir -p $(STAGE)/Applications/$(NAME).app;\
 		mv $(MKDIR)/$(NAME) $(STAGE)/Applications/$(NAME).app;\
 		ln -rsf /Applications/$(NAME).app/$(NAME) $(STAGEDIR)/$(NAME);\
-		cp Info.plist $(STAGE)/Applications/$(NAME).app;\
 		INSTALL_PATH=/Applications/$(NAME).app;\
 	else\
 		cp $(MKDIR)/$(NAME) $(STAGEDIR);\
