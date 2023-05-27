@@ -11,14 +11,14 @@ post:
 
 upload:
 	$(REMOTETEST)
-	
+
 	@echo "$(arrow)$(red)[WARNING] $(blue)Removing old and uploading new static binary $(red)(did you mean to run $(green)make install$(red)?)$(end)"
 	@$(SSH) "rm $(INSTALL_PATH)/$(NAME)" $(SHUTUP)
 	@$(SCP) $(MKDIR)/$(NAME) $(CLIENT):$(INSTALL_PATH)
 
 inject:
 	$(REMOTETEST)
-	
+
 	@if [ ! -z $(TRUST_BIN) ]; then\
  		echo "$(arrow)$(green)Injecting into trustcache$(end)"; \
 		$(SSH) "$(TRUST_BIN) $(INSTALL_PATH)/$(NAME) > /dev/null"; \
@@ -26,7 +26,7 @@ inject:
 
 run:
 	$(REMOTETEST)
-	
+
 	@echo "$(arrow)$(green)Running...$(end)"
 	@echo ""
 	@$(SSH) "$(INSTALL_PATH)/$(NAME)"

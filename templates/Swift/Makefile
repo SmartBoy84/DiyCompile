@@ -1,11 +1,15 @@
-CLIENT = root@le-carote.strax
+CLIENT = @@CLIENT@@
+INSTALL_PATH = /usr/local/bin
 
-OS = 14.5
-ARCH = arm64
+OS = @@OS@@
+ARCH = @@ARCH@@
 
 SWIFT_NAME = @@PROJECTNAME@@
-
 FILES = src/*.swift
+
 ENTITLEMENTS = entitlements.plist
+INFO = Info.plist
+
+GIMME_PERM = 1
 
 include $(DIYCOMPILE)/diycompile.mk

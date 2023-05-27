@@ -1,8 +1,11 @@
-CLIENT = root@le-carote.strax
+CLIENT = @@CLIENT@@
+INSTALL_PATH = /usr/local/bin
 
-OS = 14.5
-ARCH = arm64
+OS = @@OS@@
+ARCH = @@ARCH@@
 
 GO_NAME = @@PROJECTNAME@@
+
+GIMME_PERM = 1
 
 include $(DIYCOMPILE)/diycompile.mk

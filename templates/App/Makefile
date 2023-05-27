@@ -1,9 +1,15 @@
-CLIENT = root@le-carote
+CLIENT = @@CLIENT@@
+INSTALL_PATH = /Applications
 
-OS = 14.5
-ARCH = arm64
+OS = @@OS@@
+ARCH = @@ARCH@@
 
 APP_NAME = @@PROJECTNAME@@
 FILES = src/*.swift
+
+ENTITLEMENTS = entitlements.plist
+INFO = Resources/Info.plist
+
+GIMME_PERM = 1
 
 include $(DIYCOMPILE)/diycompile.mk

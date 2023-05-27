@@ -1,8 +1,9 @@
 DEB := $(COUNTERS)/DEB
+SNOOPY := com.barfie.snoopy
 
 clean:
 	@echo "$(arrow)$(green)Cleaning...$(end)"
-	
+
 	-@rm -r $(MKDIR) $(MUTE)
 	-@rm -r packages $(MUTE)
 
@@ -15,6 +16,18 @@ deb:
 	@mv packages/*.deb packages/.old $(MUTE)
 
 	@cp control $(STAGE)/DEBIAN
+
+	@if [ $(GIMME_PERM) -eq 1 ]; then\
+		echo "/usr/bin/snoopy add $(PACKAGE) $(INSTALL_PATH)/$(NAME)" > $(STAGE)/DEBIAN/postinst; \
+		chmod +x $(STAGE)/DEBIAN/postinst; \
+		chmod 0755 $(STAGE)/DEBIAN/postinst; \
+		echo "/usr/bin/snoopy remove $(PACKAGE) $(INSTALL_PATH)/$(NAME)" > $(STAGE)/DEBIAN/prerm; \
+		chmod +x $(STAGE)/DEBIAN/prerm; \
+		chmod 0755 $(STAGE)/DEBIAN/prerm; \
+		if grep -q "^Depends:" "$(STAGE)/DEBIAN/control"; then sed -i "/^Depends:/ s/$$/, $(SNOOPY)/" "$(STAGE)/DEBIAN/control"; else echo "Depends: $(SNOOPY)" >> "$(STAGE)/DEBIAN/control"; fi;\
+	fi;
+
+	@cp -r layout/* $(STAGE) > /dev/null $(SHUTUP)
 
 	$(eval COUNTER=$(shell [ -f $(DEB) ] && echo $$(($$(cat $(DEB)) + 1)) || echo 1))
 	@echo $(COUNTER) > $(DEB)
@@ -31,7 +44,7 @@ strip:
 install:
 	$(REMOTETEST)
 	@if [ ! -f packages/*.deb ]; then echo "$(red)Build a package first!$(end)"; $(RERUN) deb; fi
-	
+
 	@echo "$(arrow)$(green)Installing to $(CLIENT)...$(end)"
 	@$(SCP) packages/*.deb $(CLIENT):/tmp/build.deb > /dev/null
 	@$(SSH) "dpkg -i /tmp/build.deb && uicache"

@@ -12,8 +12,9 @@ prelim:
  		echo "$(arrow)$(blue)Initialising new go module $(green)$(name)$(end)"; \
 		go mod init $(NAME) > /dev/null; \
 	fi;\
-	
+
 	@echo "$(arrow)$(blue)Tidying up...$(end)"
+	@go mod tidy
 
 build: prelim
 	@echo "$(arrow)$(green)Building go app...$(end)"
