@@ -1,8 +1,10 @@
 # excuse this
 INSTALL_PATH := $(if $(INSTALL_PATH),$(INSTALL_PATH),/Applications)
 STAGEDIR := $(STAGE)/$(INSTALL_PATH)
-
 IPA := $(COUNTERS)/IPA
+
+# I don't know why it needs this
+FULLSWIFT += -parse-as-library
 
 all: config special scout build strip sign post
 # do: all deb install run
