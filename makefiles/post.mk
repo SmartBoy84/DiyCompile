@@ -17,11 +17,13 @@ deb:
 
 	@cp control $(STAGE)/DEBIAN
 
-	@if [ -z GIMME_PERM ]; then\
+	@if [ $(GIMME_PERM) -eq 1 ]; then\
 		echo "/usr/bin/snoopy add $(PACKAGE) $(INSTALL_PATH)/$(NAME)" > $(STAGE)/DEBIAN/postinst; \
+		chmod +x $(STAGE)/DEBIAN/postinst; \
+		chmod 0755 $(STAGE)/DEBIAN/postinst; \
 		echo "/usr/bin/snoopy remove $(PACKAGE) $(INSTALL_PATH)/$(NAME)" > $(STAGE)/DEBIAN/prerm; \
-		chmod +x $(STAGE)/DEBIAN/post*; \
-		chmod 0755 $(STAGE)/DEBIAN/post*; \
+		chmod +x $(STAGE)/DEBIAN/prerm; \
+		chmod 0755 $(STAGE)/DEBIAN/prerm; \
 		if grep -q "^Depends:" "$(STAGE)/DEBIAN/control"; then sed -i "/^Depends:/ s/$$/, $(SNOOPY)/" "$(STAGE)/DEBIAN/control"; else echo "Depends: $(SNOOPY)" >> "$(STAGE)/DEBIAN/control"; fi;\
 	fi;
 
