@@ -69,6 +69,8 @@ INFO_PLIST=""
 case ${TYPE,,} in
     app)
         INFO_PLIST=$NAME/Resources/Info.plist
+        sed -i "s/@@PACKAGENAME@@/$NAME/g" ${NAME}/src/dummyApp.swift
+        mv $NAME/src/dummyApp.swift $NAME/src/${NAME}App.swift
     ;;
     swift)
         INFO_PLIST=$NAME/Info.plist
