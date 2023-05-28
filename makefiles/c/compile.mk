@@ -9,4 +9,4 @@ special:
 
 build:
 	@echo "$(arrow)$(green)Building C app$(end)"
-	@$(CLANG) $(FULL_CLANG)
+	@$(C_CLANG) $(C_FULL)
