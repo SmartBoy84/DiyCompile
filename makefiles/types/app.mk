@@ -4,9 +4,9 @@ STAGEDIR := $(STAGE)/$(INSTALL_PATH)
 IPA := $(COUNTERS)/IPA
 
 # I don't know why it needs this
-FULLSWIFT += -parse-as-library
+SWIFT_FULL += -parse-as-library
 
-all: config special scout build strip sign
+all: config special scout build strip sign post
 ipa: post _bundle_ipa
 # do: all deb install run
 
@@ -22,7 +22,7 @@ do:
 		echo "$(arrow)$(green)Updating files to $(blue)$(CLIENT)$(end)$(green)$(end)"; \
 		rsync -ar --info=progress2 $(LOCAL_APP_DIR)/ $(CLIENT):/$(REMOTE_APP_DIR)/ --delete ; \
 	else \
-		echo "	$(red)App isn't installed at all!$(end)"; \
+		echo "$(arrow)$(red)App isn't installed at all!$(end)"; \
 		$(RERUN) install; \
 	fi
 
