@@ -5,7 +5,7 @@ TOOLCHAIN=$DIYCOMPILE/toolchain
 SDKS=$DIYCOMPILE/sdks
 
 REPO="kabiroberai/swift-toolchain-linux"
-SDK=iPhoneOS14.5.sdk
+SDK="14.4"
 
 # reset() { find $1/* ! -name '.keep' -delete  > /dev/null 2>&1 || true; }
 # reset $TOOLCHAIN
@@ -21,27 +21,27 @@ if [ $(cat $TOOLCHAIN/version 2>/dev/null || echo 0) == $tag ]; then
 else
     echo "Getting toolchain $tag from $REPO";
     TMP=$(mktemp -d)
-    
+
     wget -q --show-progress -O $TMP/$FILE $(curl -sL $LINK | jq -r ".assets[].browser_download_url" | grep ubuntu20.04.tar.xz)
     tar -xvf $TMP/$FILE -C $TMP
-    
+
     rm -r $TOOLCHAIN/* 2>/dev/null || true
     mv $TMP/linux/* $TOOLCHAIN
-    
+
     echo $tag > $TOOLCHAIN/version
-    
+
 fi
 
 if [[ ! -d $SDKS/$SDK ]]; then
     echo "Downloading $SDK"
     TMP=$(mktemp -d)
-    
-    
-    git clone https://github.com/theos/sdks $TMP/sdks
-    
-    mv $TMP/sdks/$SDK $SDKS # for now, this is all I need
+
+    wget "https://github.com/xybp888/iOS-SDKs/releases/download/iOS-SDKs/iPhoneOS${SDK}.sdk.zip" -o $TMP/iPhoneOS${SDK}.sdk.zip
+
+    unzip $TMP/iPhoneOS${SDK}.sdk.zip # for now, this is all I need
+    mv -r $TMP/iPhoneOS${SDK}.sdk $SDKS
     rm -rf $TMP # won't delete automatically since we cloned a git repo into it
-    
+
 else
     echo "$SDK already downloaded!"
 fi

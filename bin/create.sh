@@ -2,7 +2,7 @@
 
 # makefile defaults
 CLIENT="root@carrot"
-OS="14.5"
+OS="14.4"
 ARCH="arm64"
 
 # control default

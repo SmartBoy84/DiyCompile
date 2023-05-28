@@ -1,4 +1,4 @@
-Make sure to run `./bin/bootsrap.sh` (gets 14.5 sdk and sbigner's swift toolchain)\
+Make sure to run `./bin/bootsrap.sh` (gets 14.4 sdk and latest swift toolchain)\
 Run `./bin/create.sh` to access templating interface\
 Buildsystem expects `$DIYCOMPILE` to point to whereever the directory is cloned before it's run (specify custom directory by changing `$DIR` in `./makefiles/common.mk`
 
