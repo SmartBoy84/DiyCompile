@@ -4,6 +4,7 @@ just give up and use makefiles like they're meant to be used - individually comp
 
 ## Library support
 Allow user to specify frameworks to add
-If framework exists in lib or whatever path user has specified, then if the framework is present as a binary, take it's info.plist and the binary and bundle it in the executabl's application folder
-If this needs to be done then switch to "/Application" mode
+If framework exists in lib or whatever path user has specified, then if the framework is present as a binary, take it's info.plist and the binary then create a new folder called "Frameworks" in .build and dump the framework there
+eval(RESOURCES += .build/Frameworks)
 Set rpath to be its install path/Frameworks
+It should autoswitch to application mode

@@ -72,11 +72,11 @@ endif
 install:
 	$(REMOTETEST)
 
-ifneq ($(wildcard packages/*.deb),)
+ifeq ("$(wildcard packages/*.deb)","")
 	@echo "$(arrow)$(red)Build a package first!$(end)"
 	@$(RERUN) deb
 endif
-
+	
 	@echo "$(arrow)$(green)Installing to $(CLIENT)...$(end)"
 	@$(SCP) packages/*.deb $(CLIENT):/tmp/build.deb > /dev/null
 	@$(SSH) "dpkg -i /tmp/build.deb && uicache"

@@ -26,6 +26,7 @@ endif
 
 	@touch $(MKDIR)/build_session
 
+# if app, requires perms or defines INFO variable then check to see if Info.plist is valid
 ifeq ($(or $(filter %.app,$(suffix $(INSTALL_PATH))),$(GIMME_PERM),$(shell if [ -n "$(INFO)" ]; then echo 1; fi)),1)
 
 ifeq ($(shell test ! -f "$(INFO)" || test "$$(basename "$(INFO)")" != "Info.plist"; echo $$?),0)
