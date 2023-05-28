@@ -4,7 +4,7 @@
 # to be set in project's makefile - these are default values
 ARCH := $(if $(ARCH),$(ARCH),arm64)
 OS := $(if $(OS),$(OS),14.4)
-SDK_OS := $(if $(SDK_OS),$(SDK_OS),16.4)
+SDK_OS := $(if $(SDK_OS),$(SDK_OS),$(OS))
 PORT := $(if $(PORT),$(PORT),22)
 
 MKPATH = $(DIYCOMPILE)/makefiles

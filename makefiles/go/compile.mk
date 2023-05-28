@@ -18,4 +18,4 @@ prelim:
 
 build: prelim
 	@echo "$(arrow)$(green)Building go app$(end)"
-	@$(ENV_GO) go $(FULL_GO)
+	@$(GO_ENV) go $(GO_FULL)

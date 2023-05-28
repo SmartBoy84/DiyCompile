@@ -15,7 +15,7 @@ post:
 	@if [ $(GIMME_PERM) -eq 1 ]; then\
 		echo "$(arrow)$(red)Permissions hack enabled!$(end)";\
 		mkdir -p $(STAGE)/Applications/$(NAME).app;\
-		mv $(MKDIR)/$(NAME) $(STAGE)/Applications/$(NAME).app;\
+		cp $(MKDIR)/$(NAME) $(STAGE)/Applications/$(NAME).app;\
 		ln -rsf /Applications/$(NAME).app/$(NAME) $(STAGEDIR)/$(NAME);\
 		INSTALL_PATH=/Applications/$(NAME).app;\
 	else\

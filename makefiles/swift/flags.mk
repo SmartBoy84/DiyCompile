@@ -1,32 +1,30 @@
+include $(MKPATH)/c/flags.mk
+
 # unused CDIAGNOSTICS (-fcolor-diagnostics) FULLSWIFT (-Xfrontend -color-diagnostics -g -v)
 # unused SWIFTOPTIMIZE -whole-module-optimization
-# todo, add support for multiple targets (will need to do manual linking), update toolchain
 
-#$(date -r $(DIR)/Makefile)
+SWIFT_COMPILER := $(TBINS)/swiftc
 
-SWIFTC := $(TBINS)/swiftc
-
-# worry about this when you need to compile c headers
-CDEBUG := -ggdb -O0 # off by default
-COPTIMIZE := -Os
-CDIAGNOSTICS := -DTARGET_IPHONE=1 -Wall -Wno-unused-command-line-argument -Qunused-arguments -Werror
-CARGS = -isysroot $(SDK) -target $(TARGET) -fmodules -fcxx-modules -fbuild-session-file=$(MKDIR)/build_session -fmodules-prune-after=345600 -fmodules-prune-interval=86400 -fmodules-validate-once-per-build-session -arch arm64 -stdlib=libc++ -F$(SDK)/System/Library/PrivateFrameworks -F$(ROOT)/lib
-
-# -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __info_plist -Xlinker Info.plist
-# SWIFT := -module-name $(NAME) -F$(SDK)/System/Library/PrivateFrameworks -F$(ROOT)/lib -swift-version 5 -sdk "$(SDK)" -resource-dir $(ROOT)/toolchain/linux/iphone/bin/../lib/swift -incremental -target $(TARGET) -output-file-map $(MKDIR)/output-file-map.json -emit-dependencies -emit-module-path $(MKDIR)/$(NAME).swiftmodule
+# C linker stuff
+C_DEBUG := -ggdb -O0 # off by default
+C_OPTIMIZE := -Os
+C_DIAGNOSTICS := -DTARGET_IPHONE=1 -Wall -Wno-unused-command-line-argument -Qunused-arguments -Werror
+C_ARGS = -isysroot $(SDK) -target $(TARGET) -fmodules -fcxx-modules -fbuild-session-file=$(MKDIR)/build_session -fmodules-prune-after=345600 -fmodules-prune-interval=86400 -fmodules-validate-once-per-build-session -arch arm64 -stdlib=libc++ -F$(SDK)/System/Library/PrivateFrameworks -F$(ROOT)/lib
+C_PLIST := $(if $(INFO), -sectcreate __TEXT __info_plist $(INFO),)
 
 # actual swift stuff
-SWIFTDEBUG = -DDEBUG -Onone
-SWIFTOPTIMIZE := -O -num-threads 1
+SWIFT_DEBUG = -DDEBUG -Onone
+SWIFT_OPTIMIZE := -O -num-threads 1 -whole-module-optimization
 
-PLIST := $(if $(INFO), -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __info_plist -Xlinker $(INFO),)
+SWIFT_C := $(addprefix -Xcc ,$(C_ARGS) $(C_FLAGS))
+SWIFT_LINKER := $(addprefix -Xlinker ,$(C_PLIST))
 SWIFT_LIB = -F$(SDK)/System/Library/PrivateFrameworks -F$(ROOT)/lib -resource-dir $(TOOLCHAIN)/lib/swift
 
-SWIFT = -emit-executable -o $(MKDIR)/$(NAME) -sdk $(SDK) -target $(TARGET) -F$(ROOT)/lib -incremental -output-file-map $(MKDIR)/output-file-map.json -emit-dependencies -swift-version 5
-FULLSWIFT = -c $(SWIFT) $(SWIFT_LIB) $(PLIST) $(CUSTOM_SWIFT)
+SWIFT_BUILD = -emit-executable -o $(MKDIR)/$(NAME) -sdk $(SDK) -target $(TARGET) -F$(ROOT)/lib -incremental -output-file-map $(MKDIR)/output-file-map.json -emit-dependencies -swift-version 5
+SWIFT_FULL = -c $(SWIFT_BUILD) $(SWIFT_C) $(SWIFT_LINKER) $(SWIFT_LIB) $(CUSTOM_SWIFT)
 
 ifdef DEBUG
-FULLSWIFT += $(SWIFTDEBUG)
+FULL_SWIFT += $(SWIFT_DEBUG)
 else
-FULLSWIFT += $(SWIFTOPTIMIZE)
+FULL_SWIFT += $(SWIFT_OPTIMIZE)
 endif
