@@ -6,6 +6,4 @@ ARCH = @@ARCH@@
 
 GO_NAME = @@PROJECTNAME@@
 
-GIMME_PERM = 1
-
 include $(DIYCOMPILE)/diycompile.mk

@@ -10,7 +10,10 @@ C_DEBUG := -ggdb -O0 # off by default
 C_OPTIMIZE := -Os
 C_DIAGNOSTICS := -DTARGET_IPHONE=1 -Wall -Wno-unused-command-line-argument -Qunused-arguments -Werror
 C_ARGS = -isysroot $(SDK) -target $(TARGET) -fmodules -fcxx-modules -fbuild-session-file=$(MKDIR)/build_session -fmodules-prune-after=345600 -fmodules-prune-interval=86400 -fmodules-validate-once-per-build-session -arch arm64 -stdlib=libc++ -F$(SDK)/System/Library/PrivateFrameworks -F$(ROOT)/lib
+
+ifdef INFO
 C_PLIST := $(if $(INFO), -sectcreate __TEXT __info_plist $(INFO),)
+endif
 
 # actual swift stuff
 SWIFT_DEBUG = -DDEBUG -Onone

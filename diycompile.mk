@@ -7,6 +7,9 @@ OS := $(if $(OS),$(OS),14.4)
 SDK_OS := $(if $(SDK_OS),$(SDK_OS),$(OS))
 PORT := $(if $(PORT),$(PORT),22)
 
+# following allows for obtaining perms and bundling libraries/resources
+APPLICATION_MODE = $(GIMME_PERM)
+
 MKPATH = $(DIYCOMPILE)/makefiles
 TYPE=""
 LANG=""
