@@ -15,7 +15,7 @@ MUTE= 2>/dev/null; true
 TARGET := $(ARCH)-apple-ios$(OS)
 
 ROOT := ${DIYCOMPILE}
-SDK := $(ROOT)/sdks/iPhoneOS$(OS).sdk
+SDK := $(ROOT)/sdks/iPhoneOS$(SDK_OS).sdk
 
 DIR := $(shell pwd)
 
