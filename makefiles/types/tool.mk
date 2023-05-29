@@ -6,7 +6,6 @@ do: all deb install inject run
 # ln -rs important as I want it to be relative
 
 post: 
-	$(BUILD_TEST)
 
 inject:
 	$(REMOTETEST)

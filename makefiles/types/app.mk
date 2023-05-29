@@ -11,7 +11,6 @@ ipa: post stage _bundle_ipa
 do: all deb install run
 
 post:
-	$(BUILD_TEST)
 # info.plist must be present for app icon to show
 	@$(eval RESOURCES+=$(INFO))
 

@@ -16,7 +16,7 @@ build: config
 	@if [ -f $(MKDIR)/.swift-stamp.tmp ]; then rm $(MKDIR)/.swift-stamp.tmp; fi
 	@touch $(MKDIR)/.swift-stamp.tmp;
 
-FRAMEWORK_PATH := $(MKDIR)/Frameworks
+FRAMEWORK_PATH := $(MKDIR)/$(FRAMEWORK_FOLDER)
 
 framework:
 ifdef FRAMEWORKS
@@ -31,10 +31,9 @@ ifdef FRAMEWORKS
 			echo "$(red)$(arrow)$(LIBRARY)/$$file does not exist"; \
 		fi \
     done
-endif
 
 ifeq ("$(wildcard $(FRAMEWORK_PATH))","")
 	@$(eval RESOURCES+=$(FRAMEWORK_PATH))
+endif
 
-	@echo "$(RESOURCES)"
 endif
