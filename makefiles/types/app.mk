@@ -6,7 +6,7 @@ IPA = $(COUNTERS)/IPA
 SWIFT_FULL += -parse-as-library
 APPLICATION_MODE = 1
 
-all: config special build strip sign
+all: config special build strip sign post
 ipa: post stage _bundle_ipa
 do: all deb install run
 

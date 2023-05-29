@@ -4,16 +4,14 @@ SNOOPY := com.barfie.snoopy
 APPLICATION_MODE := $(if $(RESOURCES),1,$(APPLICATION_MODE))
 APPLICATION_PATH := /Applications/$(NAME).app
 
-deb: post stage _bundle_deb
+deb: all special stage _bundle_deb
 
-stage:
-	$(BUILD_TEST)
-	
+stage:	
 	@echo "$(arrow)$(green)Staging package dirs$(end)"
 	
 ifeq ($(APPLICATION_MODE),1)
 	@echo "$(arrow)$(red)Applications mode enabled!$(end)"
-	
+	@echo "$(RESOURCES) bro"
 ifeq ($(suffix $(INSTALL_PATH)),.app)
 	@echo "$(arrow)$(blue)[Warning] Install path ends with .app so not symlinking as assumed app bundle$(end)"
 else

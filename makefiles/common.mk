@@ -15,6 +15,7 @@ MUTE=2>/dev/null; true
 TARGET = $(ARCH)-apple-ios$(OS)
 
 ROOT = ${DIYCOMPILE}
+LIBRARY = $(ROOT)/lib
 SDK = $(ROOT)/sdks/iPhoneOS$(SDK_OS).sdk
 
 DIR = $(shell pwd)
@@ -42,3 +43,12 @@ FILES := $(shell echo $(FILES))
 
 # needed for ld to work
 export PATH := $(TBINS):$(PATH)
+
+# HALLELUJAH! *Ordering very much matters - do NOT change it
+include $(MKPATH)/setup.mk
+include $(MKPATH)/post.mk
+
+include $(MKPATH)/$(LANG)/flags.mk
+
+include $(MKPATH)/types/$(TYPE).mk
+include $(MKPATH)/$(LANG)/compile.mk

@@ -31,6 +31,5 @@ $(error Type not defined! Ensure something like APP_NAME is set in makefile)
 endif
 
 # FINALLY!
-include $(MKPATH)/$(LANG)/compile.mk
-include $(MKPATH)/types/$(TYPE).mk
+include $(MKPATH)/common.mk
 

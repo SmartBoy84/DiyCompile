@@ -1,13 +1,12 @@
 INSTALL_PATH := $(if $(INSTALL_PATH),$(INSTALL_PATH),/usr/local/bin)
 
-all: config special build strip sign
+all: config special build strip sign post
 do: all deb install inject run
 
 # ln -rs important as I want it to be relative
 
-post:
+post: 
 	$(BUILD_TEST)
-	@chmod +x $(MKDIR)/$(NAME)
 
 inject:
 	$(REMOTETEST)
