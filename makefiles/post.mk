@@ -76,7 +76,7 @@ install:
 
 remove:
 	$(REMOTETEST)
-	@$(SSH) "killall $(NAME) && dpkg -r $(PACKAGE) && uicache"
+	@$(SSH) "killall $(NAME) & dpkg -r $(PACKAGE) && uicache"
 
 sign:
 	@echo "$(arrow)$(green)Signing the app$(end)"

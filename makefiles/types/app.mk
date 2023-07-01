@@ -12,6 +12,7 @@ do: all deb install run
 
 post:
 # info.plist must be present for app icon to show
+	@echo "$(arrow)$(blue)Building app folder...$(end)"
 	@$(eval RESOURCES+=$(INFO))
 
 run:

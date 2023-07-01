@@ -34,7 +34,7 @@ else ifdef RUST_NAME
 	TYPE=tool
 	LANG=rust
 else
-$(error Type not defined! Ensure something like [TYPE]_NAME is set in makefile)
+	$(error Type not defined! Ensure something like [TYPE]_NAME is set in makefile)
 endif
 
 # FINALLY!

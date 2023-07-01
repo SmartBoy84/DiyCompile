@@ -4,7 +4,7 @@ INSTALL_PATH = /usr/local/bin
 OS = @@OS@@
 ARCH = @@ARCH@@
 
-RUST_NAME = @@PROJECTNAME@@
+RUSP_NAME = @@PROJECTNAME@@
 RESOURCES = Resources/*
 
 ENTITLEMENTS = entitlements.plist
