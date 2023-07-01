@@ -2,8 +2,7 @@ Package: @@PACKAGENAME@@
 Name: @@PROJECTNAME@@
 Version: 0.0.1
 Architecture: iphoneos-arm
-Description: An awesome swifty application!
+Description: An awesome rust application!
 Maintainer: @@USER@@
 Author: @@USER@@
 Section: Utilities
-Depends: org.swift.libswift (>= 5.0)

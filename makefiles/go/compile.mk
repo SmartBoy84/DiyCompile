@@ -3,10 +3,11 @@ special: prelim
 prelim:
 
 ifeq ($(wildcard $(DIR)/go.mod),)
- 	@echo "$(arrow)$(blue)Initialising new go module $(green)$(name)$(end)"
+	@echo "$(arrow)$(blue)Initialising new go module $(green)$(name)$(end)"
 	@go mod init $(NAME) > /dev/null
 endif
 
+_clean:
 	@echo "$(arrow)$(blue)Tidying up$(end)"
 	@go mod tidy
 

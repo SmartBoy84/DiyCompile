@@ -11,8 +11,7 @@ blue=\033[0;34m
 end=\033[0m
 arrow=$(red)=> $(end)
 MUTE=2>/dev/null; true
-
-TARGET = $(ARCH)-apple-ios$(OS)
+space := $(subst ,, )
 
 ROOT = ${DIYCOMPILE}
 LIBRARY = $(ROOT)/lib
@@ -31,9 +30,10 @@ STAGE = $(MKDIR)/stage
 STAGED_EXECUTABLE = $(STAGE)/$(INSTALL_PATH)
 COUNTERS = $(MKDIR)/_
 
-REMOTETEST = @(([ "${CLIENT}" ] || (echo "IP not defined"; exit 1)) && $(SSH) "echo" > /dev/null)
+REMOTETEST = @(([ "${CLIENT}" ] || (echo "IP not defined"; $(EARLY_EXIT))) && $(SSH) "echo" > /dev/null)
 BUILD_TEST = @if [ ! -f $(MKDIR)/$(NAME) ]; then echo "$(arrow)$(red)Run make first!$(end)"; fi
 RERUN = $(MAKE) --no-print-directory
+EARLY_EXIT = exit 1 # future insurance - in case I need to run something prior to exiting
 
 TOOLCHAIN = $(ROOT)/toolchain/linux/iphone
 TBINS = $(TOOLCHAIN)/bin

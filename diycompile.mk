@@ -26,8 +26,11 @@ else ifdef C_NAME
 else ifdef GO_NAME
 	TYPE=tool
 	LANG=go
+else ifdef RUST_NAME
+	TYPE=tool
+	LANG=rust
 else
-$(error Type not defined! Ensure something like APP_NAME is set in makefile)
+$(error Type not defined! Ensure something like [TYPE]_NAME is set in makefile)
 endif
 
 # FINALLY!

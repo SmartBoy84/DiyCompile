@@ -24,8 +24,8 @@ else
 	@cp $(MKDIR)/$(NAME) $(STAGED_EXECUTABLE)
 endif
 
-clean:
-	@echo "$(arrow)$(green)Cleaning$(end)"
+clean: _clean
+	@echo "$(arrow)$(green)Cleaning build$(end)"
 
 	-@rm -r $(MKDIR) $(MUTE)
 	-@rm -r packages $(MUTE)
@@ -68,7 +68,7 @@ endif
 
 install:
 	$(REMOTETEST)
-	@if [ $$(ls -1 *.flac 2>/dev/null | wc -l) != 0 ]; then echo "$(arrow)$(red)Build a package first!$(end)"; exit 1; fi
+	@if [ $$(ls -1 *.flac 2>/dev/null | wc -l) != 0 ]; then echo "$(arrow)$(red)Build a package first!$(end)"; $(EARLY_EXIT); fi
 	
 	@echo "$(arrow)$(green)Installing to $(CLIENT)...$(end)"
 	@$(SCP) packages/*.deb $(CLIENT):/tmp/build.deb > /dev/null

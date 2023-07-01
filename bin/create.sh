@@ -51,6 +51,16 @@ fi
 mkdir $NAME
 cp -r $DIYCOMPILE/templates/$TYPE/* $NAME &> /dev/null
 
+# project specific stuff
+case ${TYPE,,} in
+    app)
+        sed -i "s/@@PACKAGENAME@@/$NAME/g" ${NAME}/src/App.swift
+    ;;
+    rust)
+        sed -i "s/@@PACKAGENAME@@/\"$NAME\"/g" ${NAME}/Cargo.toml
+    ;;
+esac
+
 # set control variable
 sed -i "s/@@PROJECTNAME@@/$NAME/g" $NAME/control
 sed -i "s/@@PACKAGENAME@@/$PACKAGE/g" $NAME/control
@@ -63,13 +73,6 @@ sed -i "s/@@PROJECTNAME@@/$NAME/g" $NAME/Makefile
 sed -i "s/@@CLIENT@@/$CLIENT/g" $NAME/Makefile
 sed -i "s/@@OS@@/$OS/g" $NAME/Makefile
 sed -i "s/@@ARCH@@/$ARCH/g" $NAME/Makefile
-
-# project specific stuff
-case ${TYPE,,} in
-    app)
-        sed -i "s/@@PACKAGENAME@@/$NAME/g" ${NAME}/src/App.swift
-    ;;
-esac
 
 if [[ -f "$NAME/Info.plist" ]]; then
     sed -i "s/@@PROJECTNAME@@/${NAME}/g" $NAME/Info.plist

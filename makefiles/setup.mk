@@ -21,7 +21,7 @@ ifeq ("$(wildcard $(MKSTORE))","")
 	
 else ifeq ($(shell cmp --silent $(MKSTORE) $(MKFILE) || echo 1), 1)
 	@echo "$(red)Changes to Makefile detected, please run $(blue)make clean $(red)and retry!$(end)" 
-	exit 1
+	$(EARLY_EXIT)
 endif
 
 	@touch $(MKDIR)/build_session
@@ -31,7 +31,7 @@ ifeq ($(or $(filter %.app,$(suffix $(INSTALL_PATH))),$(GIMME_PERM),$(shell if [ 
 
 ifeq ($(shell test ! -f "$(INFO)" || test "$$(basename "$(INFO)")" != "Info.plist"; echo $$?),0)
 	@echo "$(arrow)$(red)$(blue)Info.plist$(red) improperly defined or doesn't exist (but context necessitates it)!$(end)"
-	exit 1
+	$(EARLY_EXIT)
 endif
 	@echo "$(arrow)$(blue)Will add info.plist$(end)"
 
