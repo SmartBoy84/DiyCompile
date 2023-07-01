@@ -1,5 +1,5 @@
 CLIENT = @@CLIENT@@
-INSTALL_PATH = /usr/local/bin
+INSTALL_PATH = /Applications
 
 OS = @@OS@@
 ARCH = @@ARCH@@

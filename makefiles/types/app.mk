@@ -1,9 +1,11 @@
+### lang ambiguities
+# I don't know why it needs this (not for rust, doesn't affect it's build)
+SWIFT_FULL += -parse-as-library
+
 # excuse this
 INSTALL_PATH := $(if $(INSTALL_PATH),$(INSTALL_PATH)/$(NAME).app,/Applications/$(NAME).app)
 IPA = $(COUNTERS)/IPA
 
-# I don't know why it needs this
-SWIFT_FULL += -parse-as-library
 APPLICATION_MODE = 1
 
 all: config special build strip sign post

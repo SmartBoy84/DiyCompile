@@ -15,9 +15,12 @@ endif
 
 _clean:
 	@echo "$(arrow)$(blue)Tidying up$(end)"
+	-@rm -r target $(MUTE)
 	@cargo clean
 
 build: config
 	@echo "$(arrow)$(green)Building rust app$(end)"
 	@$(CARGO_ENV) cargo $(CARGO_FULL)
+
+	-@rm $(MKDIR)/$(NAME) $(MUTE)
 	@mv $(OUTPUT_DIR)/$(NAME) $(MKDIR)

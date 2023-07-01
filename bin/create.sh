@@ -58,6 +58,7 @@ case ${TYPE,,} in
     ;;
     rust|rusp)
         sed -i "s/@@PACKAGENAME@@/\"$NAME\"/g" ${NAME}/Cargo.toml
+        rustup target add aarch64-apple-ios # I can't be arsed, if you want custom args then add them yourself
     ;;
 esac
 
