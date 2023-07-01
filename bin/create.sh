@@ -53,10 +53,10 @@ cp -r $DIYCOMPILE/templates/$TYPE/* $NAME &> /dev/null
 
 # project specific stuff
 case ${TYPE,,} in
-    app)
+    swifp)
         sed -i "s/@@PACKAGENAME@@/$NAME/g" ${NAME}/src/App.swift
     ;;
-    rust)
+    rust|rusp)
         sed -i "s/@@PACKAGENAME@@/\"$NAME\"/g" ${NAME}/Cargo.toml
     ;;
 esac

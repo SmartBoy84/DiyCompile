@@ -7,24 +7,22 @@ LINKER_PREFIX = -Clink-args=
 TARGET := $(if $(filter arm64,$(ARCH)),aarch64,$(ARCH))-apple-ios
 
 # rustc pass-through arguments
-RUST_FLAGS =
-RUST_CONFIG = linker=\"$(TBINS)/clang\"
+RUST_FLAGS = $(addprefix $(LINKER_PREFIX),$(C_BUILD))
+RUST_CONFIG = linker=\"$(C_CLANG)\"
 
 # cargo (compiler front frontend) flags and configuration
-CARGO_DEBUG =
+CARGO_DEBUG = -Cdebug-info=2 -Copt-level=0
 CARGO_OPTIMIZE = --release
 
-CARGO_FLAGS = $(CUSTOM_RUST)
+CARGO_FLAGS = $(if $(DEBUG),$(CARGO_DEBUG),$(CARGO_OPTIMIZE))
+CARGO_BUILD = --target $(TARGET) $(CUSTOM_RUST) $(addprefix $(CONFIG_PREFIX),$(RUST_CONFIG))
 
 # C linker
-C_FLAGS += -Wno-unused-command-line-argument
+C_BUILD += -Wno-unused-command-line-argument
 
 # build environment prelim
-CARGO_FLAGS += $(if $(DEBUG),$(CARGO_DEBUG),$(CARGO_OPTIMIZE))
-RUST_FLAGS += $(addprefix $(LINKER_PREFIX),$(C_FLAGS) $(C_BUILD))
-
 OUTPUT_DIR := $(DIR)/target/$(TARGET)/$(if $(DEBUG),debug,release)
-
-CARGO_ENV = SDKROOT=$(SDK) RUSTFLAGS="$(RUST_FLAGS)"
-CARGO_BUILD = --target $(TARGET) $(addprefix $(CONFIG_PREFIX),$(RUST_CONFIG))
 CARGO_FULL = build $(CARGO_BUILD) $(CARGO_FLAGS)
+
+# point CC to clang (for cc create or variants)
+CARGO_ENV = CRATE_CC_NO_DEFAULTS=1 CFLAGS="$(C_BUILD)" CC=$(C_CLANG) SDKROOT=$(SDK) RUSTFLAGS="$(RUST_FLAGS)"

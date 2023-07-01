@@ -4,6 +4,6 @@ INSTALL_PATH = /usr/local/bin
 OS = @@OS@@
 ARCH = @@ARCH@@
 
-RUST_NAME = @@PROJECTNAME@@
+RUSP_NAME = @@PROJECTNAME@@
 
 include $(DIYCOMPILE)/diycompile.mk

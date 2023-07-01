@@ -14,9 +14,13 @@ MKPATH = $(DIYCOMPILE)/makefiles
 TYPE=""
 LANG=""
 
-ifdef APP_NAME
+# there's probably a better way to do this lmao
+ifdef SWIFP_NAME
 	TYPE=app
 	LANG=swift
+else ifdef RUSP_NAME
+	TYPE=app
+	LANG=rust
 else ifdef SWIFT_NAME
 	TYPE=tool
 	LANG=swift
