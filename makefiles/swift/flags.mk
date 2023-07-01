@@ -3,8 +3,6 @@ include $(MKPATH)/c/flags.mk
 # unused CDIAGNOSTICS (-fcolor-diagnostics) FULLSWIFT (-Xfrontend -color-diagnostics -g -v)
 # unused SWIFTOPTIMIZE -whole-module-optimization
 
-TARGET = $(ARCH)-apple-ios$(OS)
-
 SWIFT_COMPILER := $(TBINS)/swiftc
 
 C_ARGS = -isysroot $(C_FLAGS) -fmodules -fcxx-modules -fbuild-session-file=$(MKDIR)/build_session -fmodules-prune-after=345600 -fmodules-prune-interval=86400 -fmodules-validate-once-per-build-session -arch $(ARCH) -stdlib=libc++ -F$(SDK)/System/Library/PrivateFrameworks -F$(ROOT)/lib
@@ -28,10 +26,5 @@ SWIFT_LIB = -F$(SDK)/System/Library/PrivateFrameworks -F$(ROOT)/lib -resource-di
 SWIFT_FLAGS := $(CUSTOM_C)
 SWIFT_BUILD = -emit-executable -o $(MKDIR)/$(NAME) -sdk $(SDK) -target $(TARGET) -F$(ROOT)/lib -incremental -output-file-map $(MKDIR)/output-file-map.json -emit-dependencies -swift-version 5
 
+SWIFT_FLAGS += $(if $(DEBUG),$(SWIFT_DEBUG),$(SWIFT_OPTIMIZE))
 SWIFT_FULL = -c $(SWIFT_BUILD) $(SWIFT_FLAGS) $(SWIFT_C) $(SWIFT_LINKER) $(SWIFT_LIB)
-
-ifdef DEBUG
-SWIFT_FULL += $(SWIFT_DEBUG)
-else
-SWIFT_FULL += $(SWIFT_OPTIMIZE)
-endif

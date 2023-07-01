@@ -8,13 +8,6 @@ ifdef FILES
 	$(EARLY_EXIT)
 endif
 
-ifdef ARCH
-ifneq ($(ARCH),arm64)
-	@echo "$(arrow)$(red)Sorry but rust only supports arm64 target$(end)"
-	$(EARLY_EXIT)
-endif
-endif
-
 ifeq ($(wildcard $(DIR)/Cargo.toml),)
 	@echo "$(arrow)$(blue)Initialising new rust app: $(green)$(name)$(end)"
 	@cargo init > /dev/null
@@ -26,4 +19,5 @@ _clean:
 
 build: config
 	@echo "$(arrow)$(green)Building rust app$(end)"
-	@$(RUST_ENV) cargo $(RUST_FULL)
+	@$(CARGO_ENV) cargo $(CARGO_FULL)
+	@mv $(OUTPUT_DIR)/$(NAME) $(MKDIR)
