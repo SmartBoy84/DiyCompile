@@ -29,10 +29,12 @@ done
 
 while true; do
     read -p "Project name: " NAME
-    if [ -z "$NAME" ]; then
+    if [[ -z "$NAME" ]]; then
         echo "I need a name, man!"
-        elif [ -d $NAME ]; then
-        echo "Folder with that name already exists"
+    elif [[ "$NAME" =~ [\ ] ]]; then
+        echo "Name cannot contain spaces."
+    elif [[ -d "$NAME" ]]; then
+        echo "Folder with that name already exists."
     else
         break
     fi

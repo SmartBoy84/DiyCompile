@@ -1,7 +1,7 @@
 include $(MKPATH)/c/flags.mk
 
 CONFIG_PREFIX = --config target.$(TARGET).
-LINKER_PREFIX = -Clink-args=
+LINKER_PREFIX = -Clink-arg=
 
 # rust moment, arm64 (ios) == aarch64 (ios)
 TARGET := $(if $(filter arm64,$(ARCH)),aarch64,$(ARCH))-apple-ios
@@ -24,5 +24,5 @@ C_BUILD += -Wno-unused-command-line-argument
 OUTPUT_DIR := $(DIR)/target/$(TARGET)/$(if $(DEBUG),debug,release)
 CARGO_FULL = build $(CARGO_BUILD) $(CARGO_FLAGS)
 
-# point CC to clang (for cc create or variants)
-CARGO_ENV = CRATE_CC_NO_DEFAULTS=1 CFLAGS="$(C_BUILD)" CC=$(C_CLANG) SDKROOT=$(SDK) RUSTFLAGS="$(RUST_FLAGS)"
+# point CC to clang (for cc create or variants) - FIX ME, for some reason CC=".../clang" doesn't work
+CARGO_ENV = CRATE_CC_NO_DEFAULTS=1 CFLAGS="$(C_BUILD)" CC_$(subst -,_,$(TARGET))="$(C_CLANG)" CC="$(C_CLANG)" SDKROOT="$(SDK)" RUSTFLAGS="$(RUST_FLAGS)"
