@@ -13,9 +13,6 @@ ipa: post stage _bundle_ipa
 do: all deb install run
 
 post:
-# info.plist must be present for app icon to show
-	@echo "$(arrow)$(blue)Building app folder...$(end)"
-	@$(eval RESOURCES+=$(INFO))
 
 run:
 	@echo "$(arrow)$(green)Launching$(end)"

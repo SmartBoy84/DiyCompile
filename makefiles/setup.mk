@@ -46,7 +46,7 @@ endif
 	@echo "$(arrow)$(blue)Will add info.plist$(end)"
 
 	@cp $(INFO) $(MKDIR)/Info.plist
-	@INFO=$(MKDIR)/Info.plist
-
 	@sed -i "s/@@VERSION@@/$(VERSION)/g" $(INFO)
+
+	@$(eval RESOURCES+=$(MKDIR)/Info.plist)
 endif	
