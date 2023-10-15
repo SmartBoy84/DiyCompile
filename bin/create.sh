@@ -13,19 +13,26 @@ MAINTAINER=$USER
 
 # select type
 templates=($DIYCOMPILE/templates/*)
-echo $templates
 
-for i in "${!templates[@]}"; do templates[$i]=${templates[$i]##*/}; done
-select option in ${templates[*]}; do # in "$@" is the default
-    if [ 1 -le "$REPLY" ] && [ "$REPLY" -le $((${#templates[@]})) ];
-    then
-        TYPE=$option;
-        break;
-    else
-        echo "Select a number [1-${#templates[@]}]"
-    fi
+folders=()
+count=1
+
+for template in "${templates[@]}"; do
+  if [ -d "$template" ]; then
+    folder_name=$(basename "$template")
+    folders[count]="$folder_name"
+    ((count++))
+  fi
 done
 
+select option in "${folders[@]}"; do
+  if [ 1 -le "$REPLY" ] && [ "$REPLY" -le $((${#folders[@]})) ]; then
+    TYPE=${folders[$REPLY]}
+    break
+  else
+    echo "Select a valid number [1-${#folders[@]}]"
+  fi
+done
 
 while true; do
     read -p "Project name: " NAME
@@ -77,8 +84,5 @@ sed -i "s/@@CLIENT@@/$CLIENT/g" $NAME/Makefile
 sed -i "s/@@OS@@/$OS/g" $NAME/Makefile
 sed -i "s/@@ARCH@@/$ARCH/g" $NAME/Makefile
 
-if [[ -f "$NAME/Info.plist" ]]; then
-    sed -i "s/@@PROJECTNAME@@/${NAME}/g" $NAME/Info.plist
-    sed -i "s/@@PACKAGENAME@@/${PACKAGE}/g" $NAME/Info.plist
-    sed -i "s/@@VERSION@@/${OS}/g" $NAME/Info.plist
-fi
+# do any preliminary set up
+cd $NAME && make config

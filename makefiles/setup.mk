@@ -1,10 +1,6 @@
 MKFILE := $(DIR)/Makefile
 MKSTORE := $(MKDIR)/.makefile
 
-ifdef INFO
-CONDITION := 1
-endif
-
 config: setup special
 
 setup:
@@ -20,8 +16,12 @@ ifeq ("$(wildcard $(MKSTORE))","")
 	@cp --preserve=timestamps $(MKFILE) $(MKSTORE)
 	
 else ifeq ($(shell cmp --silent $(MKSTORE) $(MKFILE) || echo 1), 1)
-	@echo "$(red)Changes to Makefile detected, please run $(blue)make clean $(red)and retry!$(end)" 
+	@echo "$(red)Changes to Makefile detected, please run $(blue)make clean $(red)$(end)"
+
+# be a bit more strict with swift since user can add libraries
+ifeq ($(LANG),swift)
 	$(EARLY_EXIT)
+endif
 endif
 
 	@touch $(MKDIR)/build_session
@@ -29,13 +29,21 @@ endif
 # if app, requires perms or defines INFO variable then check to see if Info.plist is valid
 ifeq ($(or $(filter %.app,$(suffix $(INSTALL_PATH))),$(GIMME_PERM),$(shell if [ -n "$(INFO)" ]; then echo 1; fi)),1)
 
-ifeq ($(shell test ! -f "$(INFO)" || test "$$(basename "$(INFO)")" != "Info.plist"; echo $$?),0)
-	@echo "$(arrow)$(red)$(blue)Info.plist$(red) improperly defined or doesn't exist (but context necessitates it)!$(end)"
-	$(EARLY_EXIT)
+# ugly check, create info.plist if it doesn't exist
+ifeq ($(wildcard $(INFO)),)
+	@echo "$(arrow)$(blue)$(INFO)$(red) doesn't exist at specified path so baking a fresh Info.plist$(end)"
+	@cp $(TEMPLATE_INFO) $(INFO)
+	
+# Configure Info.plist
+	@sed -i "s/@@PROJECTNAME@@/${NAME}/g" $(INFO)
+	@sed -i "s/@@PACKAGENAME@@/${PACKAGE}/g" $(INFO)
+	@sed -i "s/@@VERSION@@/${OS}/g" $(INFO)
+
 endif
+
 	@echo "$(arrow)$(blue)Will add info.plist$(end)"
 
-	@cp $(INFO) $(MKDIR)
+	@cp $(INFO) $(MKDIR)/Info.plist
 	@INFO=$(MKDIR)/Info.plist
 
 	@sed -i "s/@@VERSION@@/$(VERSION)/g" $(INFO)

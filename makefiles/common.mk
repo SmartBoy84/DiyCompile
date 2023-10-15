@@ -19,6 +19,9 @@ SDK = $(ROOT)/sdks/iPhoneOS$(SDK_OS).sdk
 
 DIR = $(shell pwd)
 
+TEMPLATE_INFO = $(DIYCOMPILE)/templates/Info.plist
+INFO := $(if $(INFO),$(INFO),$(DIR)/Info.plist)
+
 # scrape the control file for variables
 NAME = $(shell cat $(DIR)/control | awk 'match($$0, /^[n|N]ame:\s*(.*)$$/, arr) {print arr[1]}')
 PACKAGE = $(shell cat $(DIR)/control | awk 'match($$0, /^[p|P]ackage:\s*(.*)$$/, arr) {print arr[1]}')

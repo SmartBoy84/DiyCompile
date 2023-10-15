@@ -8,7 +8,6 @@ SWIFT_NAME = @@PROJECTNAME@@
 FILES = src/*.swift
 
 ENTITLEMENTS = entitlements.plist
-INFO = Info.plist
 
 GIMME_PERM = 1
 
