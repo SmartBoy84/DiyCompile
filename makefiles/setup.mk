@@ -1,6 +1,9 @@
 MKFILE := $(DIR)/Makefile
 MKSTORE := $(MKDIR)/.makefile
 
+# Zoo wee mama!
+INFO ?= $(if $(or $(filter %.app,$(suffix $(INSTALL_PATH))),$(GIMME_PERM)),$(DIR)/Info.plist,)
+
 config: setup special
 
 setup:
@@ -27,7 +30,7 @@ endif
 	@touch $(MKDIR)/build_session
 
 # if app, requires perms or defines INFO variable then check to see if Info.plist is valid
-ifeq ($(or $(filter %.app,$(suffix $(INSTALL_PATH))),$(GIMME_PERM),$(shell if [ -n "$(INFO)" ]; then echo 1; fi)),1)
+ifneq ($(INFO),)
 
 # ugly check, create info.plist if it doesn't exist
 ifeq ($(wildcard $(INFO)),)
@@ -38,7 +41,6 @@ ifeq ($(wildcard $(INFO)),)
 	@sed -i "s/@@PROJECTNAME@@/${NAME}/g" $(INFO)
 	@sed -i "s/@@PACKAGENAME@@/${PACKAGE}/g" $(INFO)
 	@sed -i "s/@@VERSION@@/${OS}/g" $(INFO)
-
 endif
 
 	@echo "$(arrow)$(blue)Will add info.plist$(end)"
@@ -47,5 +49,4 @@ endif
 	@INFO=$(MKDIR)/Info.plist
 
 	@sed -i "s/@@VERSION@@/$(VERSION)/g" $(INFO)
-
 endif	
